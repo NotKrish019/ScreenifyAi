@@ -53,58 +53,155 @@ class RankingEngine:
         else:
             return FitCategory.LOW
     
+    def extract_candidate_info(self, resume_text: str) -> Dict:
+        """
+        Extract actual candidate information from resume text.
+        """
+        import re
+        lines = resume_text.split('\n')
+        info = {
+            'name': None,
+            'title': None,
+            'experience_years': None,
+            'companies': [],
+            'education': [],
+            'location': None
+        }
+        
+        # Extract name (usually first non-empty line)
+        for line in lines[:5]:
+            line = line.strip()
+            if line and len(line) < 50 and not any(x in line.lower() for x in ['email', 'phone', '@', 'http', 'github']):
+                # Check if it looks like a name (mostly letters and spaces)
+                if re.match(r'^[A-Za-z\s\.\-]+$', line):
+                    info['name'] = line.title()
+                    break
+        
+        # Extract title (often second line or after name)
+        title_keywords = ['developer', 'engineer', 'manager', 'analyst', 'designer', 'architect', 'consultant', 'specialist']
+        for line in lines[1:10]:
+            line_lower = line.lower().strip()
+            if any(kw in line_lower for kw in title_keywords) and len(line) < 60:
+                info['title'] = line.strip()
+                break
+        
+        # Extract experience years
+        exp_patterns = [
+            r'(\d+)\+?\s*years?\s+(?:of\s+)?experience',
+            r'experience[:\s]+(\d+)\+?\s*years?',
+            r'(\d+)\+?\s*years?\s+in\s+'
+        ]
+        for pattern in exp_patterns:
+            match = re.search(pattern, resume_text.lower())
+            if match:
+                info['experience_years'] = int(match.group(1))
+                break
+        
+        # Extract companies
+        company_patterns = [
+            r'(?:at|@)\s+([A-Z][A-Za-z\s&]+(?:Inc|LLC|Corp|Ltd|Technologies|Systems|Solutions|Company)?)',
+            r'\|\s+([A-Z][A-Za-z\s&]+)\s+\|',
+            r'([A-Z][A-Za-z\s]+(?:Technologies|Systems|Solutions|Labs|Inc))'
+        ]
+        companies_found = set()
+        for pattern in company_patterns:
+            matches = re.findall(pattern, resume_text)
+            for m in matches[:5]:
+                if len(m) > 3 and len(m) < 40:
+                    companies_found.add(m.strip())
+        info['companies'] = list(companies_found)[:3]
+        
+        # Extract education
+        edu_keywords = ['bachelor', 'master', 'phd', 'degree', 'university', 'college', 'institute', 'b.s.', 'm.s.', 'b.tech', 'm.tech', 'mba']
+        for line in lines:
+            line_lower = line.lower()
+            if any(kw in line_lower for kw in edu_keywords):
+                edu_line = line.strip()
+                if len(edu_line) > 10 and len(edu_line) < 100:
+                    info['education'].append(edu_line)
+        info['education'] = info['education'][:2]
+        
+        return info
+    
     def generate_summary(self, 
                          score: float, 
                          matched_skills: List[str], 
                          missing_skills: List[str],
-                         skill_breakdown: Dict) -> str:
+                         skill_breakdown: Dict,
+                         resume_text: str = None,
+                         resume_name: str = None) -> str:
         """
-        Generate a personalized summary for the candidate.
-        
-        Args:
-            score: Match score
-            matched_skills: List of matched skills
-            missing_skills: List of missing skills
-            skill_breakdown: Skill category breakdown
-            
-        Returns:
-            Generated summary string
+        Generate a detailed, personalized summary for the candidate.
+        Actually reads the resume content to extract specific information.
         """
         fit = self.determine_fit_category(score)
+        parts = []
         
-        # Select base template
-        templates = SUMMARY_TEMPLATES.get(fit.value.lower(), SUMMARY_TEMPLATES['medium'])
-        base_summary = random.choice(templates)
+        # Extract actual candidate info from resume
+        candidate_info = {}
+        if resume_text:
+            candidate_info = self.extract_candidate_info(resume_text)
         
-        # Add specific details
-        details = []
+        # Build personalized summary
+        name = candidate_info.get('name')
+        title = candidate_info.get('title')
+        exp_years = candidate_info.get('experience_years')
+        companies = candidate_info.get('companies', [])
+        education = candidate_info.get('education', [])
         
-        # Highlight strong categories
-        strong_categories = [
-            cat for cat, data in skill_breakdown.items()
-            if data.get('percentage', 0) >= 70
-        ]
-        
-        if strong_categories and fit != FitCategory.LOW:
-            category_names = [cat.replace('_', ' ').title() for cat in strong_categories[:2]]
-            details.append(f"Strong proficiency in {', '.join(category_names)}.")
-        
-        # Mention key matched skills
-        if matched_skills and len(matched_skills) >= 3:
-            top_skills = matched_skills[:3]
-            details.append(f"Key skills include {', '.join(top_skills)}.")
-        
-        # Mention improvement areas for medium/low fits
-        if fit in [FitCategory.MEDIUM, FitCategory.LOW] and missing_skills:
-            if len(missing_skills) <= 3:
-                details.append(f"May benefit from experience in {', '.join(missing_skills[:2])}.")
+        # Opening with candidate identity
+        if name:
+            if title:
+                parts.append(f"{name} is a {title.lower()}")
             else:
-                details.append(f"Additional development in {missing_skills[0]} and {missing_skills[1]} would strengthen candidacy.")
+                parts.append(f"{name}")
+            
+            if exp_years:
+                parts[-1] += f" with {exp_years}+ years of experience."
+            elif companies:
+                parts[-1] += f" with experience at {companies[0]}."
+            else:
+                parts[-1] += "."
+        else:
+            # Fallback if name not found
+            candidate_name = resume_name.replace('.pdf', '').replace('.docx', '').replace('resume_', '').replace('_', ' ').title() if resume_name else "This candidate"
+            parts.append(f"{candidate_name}")
+            if exp_years:
+                parts[-1] += f" has {exp_years}+ years of experience."
+            else:
+                parts[-1] += "."
         
-        # Combine summary
-        if details:
-            return f"{base_summary} {' '.join(details)}"
-        return base_summary
+        # Key skills
+        if matched_skills and len(matched_skills) >= 3:
+            top_skills = matched_skills[:4]
+            parts.append(f"Demonstrates strong proficiency in {', '.join(top_skills[:-1])} and {top_skills[-1]}.")
+        elif matched_skills:
+            parts.append(f"Has skills in {', '.join(matched_skills)}.")
+        
+        # Education highlight
+        if education:
+            # Simplify education mention
+            edu_short = education[0]
+            if 'master' in edu_short.lower() or 'm.s.' in edu_short.lower():
+                parts.append("Holds a Master's degree.")
+            elif 'bachelor' in edu_short.lower() or 'b.s.' in edu_short.lower():
+                parts.append("Has a Bachelor's degree in a relevant field.")
+        
+        # Fit-based recommendation
+        if fit == FitCategory.HIGH:
+            if missing_skills and len(missing_skills) <= 2:
+                parts.append(f"Minor gaps in {', '.join(missing_skills[:2])} but overall excellent fit.")
+            parts.append("Highly recommended for interview.")
+        elif fit == FitCategory.MEDIUM:
+            if missing_skills:
+                parts.append(f"Would benefit from experience in {', '.join(missing_skills[:2])}.")
+            parts.append("Consider for technical screening.")
+        else:
+            if missing_skills:
+                parts.append(f"Lacks key skills: {', '.join(missing_skills[:3])}.")
+            parts.append("May require significant training or better suited for a different role.")
+        
+        return ' '.join(parts)
     
     def rank_candidates(self, 
                         candidates: List[CandidateScore],
@@ -130,12 +227,14 @@ class RankingEngine:
             # Determine fit category
             fit = self.determine_fit_category(final_score)
             
-            # Generate summary
+            # Generate summary with actual resume content
             summary = self.generate_summary(
                 final_score,
                 sim_data.get('matched_skills', []),
                 sim_data.get('missing_skills', []),
-                sim_data.get('skill_breakdown', {})
+                sim_data.get('skill_breakdown', {}),
+                resume_text=candidate.original_text,
+                resume_name=candidate.resume_name
             )
             
             # Create result object

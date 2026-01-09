@@ -36,6 +36,7 @@ from resume_parser import resume_parser
 from nlp_engine import nlp_engine
 from similarity_engine import similarity_engine
 from ranking import ranking_engine, CandidateScore
+from ai_service import ai_service
 
 # Configure logging
 logging.basicConfig(
@@ -540,11 +541,12 @@ async def analyze_resumes():
 
 
 @app.get("/results", tags=["Analysis"])
-async def get_results():
+async def get_results(use_ai: bool = False):
     """
     Get the latest analysis results.
     
-    Returns cached results from the most recent analysis.
+    Set use_ai=true for AI-enhanced summaries (slower but more detailed).
+    Default is fast mode without AI.
     """
     if not app_state.analysis_complete or not app_state.results:
         raise HTTPException(
@@ -555,24 +557,67 @@ async def get_results():
     # Get statistics
     stats = ranking_engine.get_ranking_stats(app_state.results)
     
+    # Fast mode - return results as-is
+    if not use_ai:
+        return {
+            "success": True,
+            "job_title_detected": app_state.jd_analysis.get("detected_role") if app_state.jd_analysis else None,
+            "total_candidates": len(app_state.results),
+            "results": [
+                {
+                    "rank": r.rank,
+                    "id": r.id,
+                    "resume_name": r.resume_name,
+                    "match_score": r.match_score,
+                    "fit": r.fit.value,
+                    "matched_skills": r.matched_skills,
+                    "missing_skills": r.missing_skills,
+                    "summary": r.summary
+                }
+                for r in app_state.results
+            ],
+            "statistics": stats,
+            "ai_enhanced": False
+        }
+    
+    # AI mode - generate enhanced summaries
+    enhanced_results = []
+    for r in app_state.results:
+        resume_data = next((res for res in app_state.resumes if res["id"] == r.id), None)
+        ai_summary = r.summary
+        ai_skills = r.matched_skills
+        
+        if resume_data and app_state.jd_text:
+            try:
+                ai_result = ai_service.analyze_resume(
+                    resume_data["original_text"],
+                    app_state.jd_text
+                )
+                if ai_result.get("summary"):
+                    ai_summary = ai_result["summary"]
+                if ai_result.get("skills_found"):
+                    ai_skills = ai_result["skills_found"]
+            except Exception as e:
+                logger.warning(f"AI analysis failed for {r.resume_name}: {e}")
+        
+        enhanced_results.append({
+            "rank": r.rank,
+            "id": r.id,
+            "resume_name": r.resume_name,
+            "match_score": r.match_score,
+            "fit": r.fit.value,
+            "matched_skills": ai_skills,
+            "missing_skills": r.missing_skills,
+            "summary": ai_summary
+        })
+    
     return {
         "success": True,
         "job_title_detected": app_state.jd_analysis.get("detected_role") if app_state.jd_analysis else None,
         "total_candidates": len(app_state.results),
-        "results": [
-            {
-                "rank": r.rank,
-                "id": r.id,
-                "resume_name": r.resume_name,
-                "match_score": r.match_score,
-                "fit": r.fit.value,
-                "matched_skills": r.matched_skills,
-                "missing_skills": r.missing_skills,
-                "summary": r.summary
-            }
-            for r in app_state.results
-        ],
-        "statistics": stats
+        "results": enhanced_results,
+        "statistics": stats,
+        "ai_enhanced": True
     }
 
 

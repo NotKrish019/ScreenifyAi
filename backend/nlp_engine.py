@@ -174,6 +174,7 @@ class NLPEngine:
     def extract_skills(self, text: str) -> Dict[str, List[str]]:
         """
         Extract skills from text based on the skills dataset.
+        Uses strict word boundary matching to avoid false positives.
         
         Args:
             text: Text to extract skills from
@@ -181,15 +182,20 @@ class NLPEngine:
         Returns:
             Dictionary with skill categories and matched skills
         """
+        import re
+        
         text_lower = text.lower()
-        tokens = set(self.tokenize(text_lower))
         
-        # Also create bigrams and trigrams for multi-word skills
-        words = text_lower.split()
-        bigrams = set(' '.join(words[i:i+2]) for i in range(len(words)-1))
-        trigrams = set(' '.join(words[i:i+3]) for i in range(len(words)-2))
-        
-        all_ngrams = tokens | bigrams | trigrams
+        # Skills that need special handling due to being short or ambiguous
+        # These require explicit context like "R language", "R programming", etc.
+        ambiguous_skills = {
+            'r': [r'\br\s+programming', r'\br\s+language', r'\br\s+studio', r'rstudio', 
+                  r'r\s+statistical', r'programming\s+in\s+r\b', r'\br\s+for\s+data'],
+            'c': [r'\bc\s+programming', r'\bc\s+language', r'c/c\+\+', r'\bc\s+and\s+c\+\+',
+                  r'programming\s+in\s+c\b', r'\bc\s+development'],
+            'go': [r'\bgolang\b', r'\bgo\s+programming', r'\bgo\s+language', r'written\s+in\s+go\b',
+                   r'\bgo\s+development', r'\bgo\s+developer'],
+        }
         
         extracted = {}
         
@@ -200,12 +206,39 @@ class NLPEngine:
             category_skills = []
             for skill in data['skills']:
                 skill_lower = skill.lower()
+                skill_found = False
                 
-                # Check for exact match
-                if skill_lower in all_ngrams:
-                    category_skills.append(skill)
-                # Check if skill appears in text (for multi-word skills)
-                elif skill_lower in text_lower:
+                # Handle ambiguous/short skills with special patterns
+                if skill_lower in ambiguous_skills:
+                    patterns = ambiguous_skills[skill_lower]
+                    for pattern in patterns:
+                        if re.search(pattern, text_lower):
+                            skill_found = True
+                            break
+                else:
+                    # For normal skills, use word boundary matching
+                    # Escape special regex characters in skill name
+                    escaped_skill = re.escape(skill_lower)
+                    
+                    # Create pattern with word boundaries
+                    # Allow for variations like .js, -js for frameworks
+                    pattern = r'\b' + escaped_skill + r'\b'
+                    
+                    # Also check for common variations
+                    variations = [pattern]
+                    
+                    # Add .js variation for JS frameworks
+                    if skill_lower.endswith('js'):
+                        base = skill_lower[:-2]
+                        variations.append(r'\b' + re.escape(base) + r'\.js\b')
+                    
+                    # Check all patterns
+                    for pat in variations:
+                        if re.search(pat, text_lower):
+                            skill_found = True
+                            break
+                
+                if skill_found:
                     category_skills.append(skill)
             
             if category_skills:
