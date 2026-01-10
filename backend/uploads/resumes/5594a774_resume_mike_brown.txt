@@ -1,0 +1,40 @@
+MIKE BROWN
+Backend Developer
+Email: mike.brown@email.com | Phone: (555) 345-6789
+Location: Austin, TX
+
+ABOUT ME
+Backend developer with 4 years of experience specializing in Python and database systems. Experience with API development and server-side programming.
+
+TECHNICAL SKILLS
+Languages: Python, Java, SQL, Bash
+Backend: Django, FastAPI, Spring Boot
+Databases: PostgreSQL, MySQL, Redis, Elasticsearch
+Cloud: AWS (EC2, RDS, S3), Azure
+DevOps: Docker, Jenkins, Ansible
+Version Control: Git, SVN
+
+WORK HISTORY
+
+Backend Developer | Enterprise Solutions | 2021 - Present
+- Designed and built REST APIs using Python Django and FastAPI
+- Managed PostgreSQL databases handling 10TB+ of data
+- Implemented caching solutions with Redis
+- Built data pipelines using Python and Apache Airflow
+- Deployed services on AWS using Docker containers
+
+Python Developer | DataCorp | 2019 - 2021
+- Developed Python scripts for data processing
+- Built Flask APIs for internal tools
+- Optimized SQL queries for better performance
+- Wrote comprehensive documentation
+
+Junior Developer | TechFirm | 2018 - 2019
+- Learned Python and Django framework
+- Assisted in database administration
+- Fixed bugs and wrote unit tests
+
+EDUCATION
+Bachelor of Science in Information Technology | UT Austin | 2018
+
+NOTE: Limited frontend experience, primarily backend focused.

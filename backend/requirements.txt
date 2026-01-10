@@ -1,22 +1,22 @@
 # FastAPI and Server
-fastapi==0.104.1
-uvicorn[standard]==0.24.0
-python-multipart==0.0.6
+fastapi
+uvicorn[standard]
+python-multipart
 
 # Document Parsing
-pdfplumber==0.10.3
-PyPDF2==3.0.1
-python-docx==1.1.0
+pdfplumber
+PyPDF2
+python-docx
 
 # NLP Processing
-nltk==3.8.1
-scikit-learn==1.3.2
-numpy==1.26.2
-sentence-transformers==2.2.2
+nltk
+scikit-learn
+numpy
+sentence-transformers
 
 # Utilities
-python-dotenv==1.0.0
-aiofiles==23.2.1
+python-dotenv
+aiofiles
 
 # CORS
-starlette==0.27.0
+starlette

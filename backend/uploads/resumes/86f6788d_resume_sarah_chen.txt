@@ -1,0 +1,42 @@
+SARAH CHEN
+Software Developer
+Email: sarah.chen@email.com | Phone: (555) 234-5678 | GitHub: github.com/sarahchen
+Location: New York, NY
+
+SUMMARY
+Passionate software developer with 3 years of experience in web development. Strong skills in Python, React, and database management. Quick learner with excellent problem-solving abilities.
+
+SKILLS
+Programming: Python, JavaScript, Java, C++
+Frontend: React, HTML5, CSS3, Bootstrap, jQuery
+Backend: Django, Flask, Node.js, Express
+Database: MySQL, PostgreSQL, MongoDB
+Tools: Git, Docker, AWS, Heroku, Linux
+
+EXPERIENCE
+
+Software Developer | DataFlow Systems | 2022 - Present
+- Developed web applications using React and Django
+- Created REST APIs for mobile application integration
+- Optimized database queries improving performance by 40%
+- Participated in agile sprints and code reviews
+- Wrote unit tests using Jest and pytest
+
+Junior Developer | CodeWorks | 2021 - 2022
+- Built customer-facing portal using React and Node.js
+- Implemented authentication using JWT and OAuth
+- Deployed applications on AWS EC2 and Heroku
+- Collaborated with cross-functional teams
+
+Intern | TechStart | 2020 - 2021
+- Developed internal tools using Python and Flask
+- Learned version control with Git
+- Participated in daily standups and sprint planning
+
+EDUCATION
+Master of Science in Software Engineering | NYU | 2021
+Bachelor of Science in Computer Science | UC Berkeley | 2019
+
+PROJECTS
+- Open source contributor to React ecosystem
+- Personal blog platform built with Next.js and MongoDB

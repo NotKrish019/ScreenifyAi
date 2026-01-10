@@ -1,0 +1,42 @@
+ALEX JOHNSON
+Full-Stack Software Engineer
+Email: alex.johnson@email.com | Phone: (555) 123-4567 | LinkedIn: linkedin.com/in/alexjohnson
+Location: San Francisco, CA
+
+PROFESSIONAL SUMMARY
+Experienced Full-Stack Developer with 5+ years building scalable web applications. Expert in Python, JavaScript, React, and Node.js with strong cloud experience on AWS. Passionate about clean code and agile methodologies.
+
+TECHNICAL SKILLS
+Languages: Python, JavaScript, TypeScript, SQL, HTML, CSS
+Frontend: React, Redux, Next.js, Vue.js, Tailwind CSS
+Backend: Node.js, Express, Django, Flask, FastAPI
+Databases: PostgreSQL, MongoDB, Redis, MySQL
+Cloud & DevOps: AWS (EC2, S3, Lambda, RDS), Docker, Kubernetes, Jenkins, GitHub Actions
+Tools: Git, Jira, Figma, Postman, VS Code
+
+WORK EXPERIENCE
+
+Senior Full-Stack Engineer | TechCorp Inc. | 2021 - Present
+- Architected microservices platform serving 2M+ users using Python, Node.js, and AWS
+- Led migration from monolith to microservices, reducing deployment time by 60%
+- Built React-based dashboard with real-time analytics using WebSockets
+- Implemented CI/CD pipelines with GitHub Actions and Docker
+- Mentored team of 4 junior developers
+
+Full-Stack Developer | StartupXYZ | 2019 - 2021
+- Developed e-commerce platform using React, Node.js, and PostgreSQL
+- Integrated payment systems (Stripe, PayPal) processing $5M+ annually
+- Built REST APIs serving mobile and web applications
+- Implemented automated testing achieving 85% code coverage
+
+Junior Developer | WebAgency | 2018 - 2019
+- Created responsive websites using HTML, CSS, JavaScript
+- Developed WordPress plugins and custom themes
+- Collaborated with designers using Figma
+
+EDUCATION
+Bachelor of Science in Computer Science | Stanford University | 2018
+
+CERTIFICATIONS
+- AWS Solutions Architect Associate
+- Docker Certified Associate

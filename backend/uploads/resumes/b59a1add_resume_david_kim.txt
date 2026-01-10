@@ -1,0 +1,49 @@
+DAVID KIM
+Junior Software Developer
+Email: david.kim@email.com | Phone: (555) 567-8901
+Location: Los Angeles, CA
+
+OBJECTIVE
+Recent computer science graduate seeking opportunity to grow as a full-stack developer. Eager to learn and contribute to challenging projects.
+
+SKILLS
+Languages: JavaScript, Python, Java, C
+Frontend: HTML, CSS, React (learning), Bootstrap
+Backend: Node.js (basic), Express (basic), Django (basic)
+Database: MySQL, SQLite
+Tools: Git, VS Code, Postman
+
+EXPERIENCE
+
+Intern Developer | SmallTech Co. | 2023 (6 months)
+- Assisted in developing web applications
+- Fixed bugs in existing codebase
+- Learned React fundamentals
+- Participated in daily standups
+
+Freelance Web Developer | Self-employed | 2022 - 2023
+- Built simple websites for local businesses
+- Used HTML, CSS, and JavaScript
+- Deployed sites on shared hosting
+
+EDUCATION
+Bachelor of Science in Computer Science | UCLA | 2023
+- GPA: 3.5/4.0
+- Relevant Coursework: Data Structures, Algorithms, Web Development, Database Systems
+
+PROJECTS
+
+Personal Portfolio Website
+- Built responsive portfolio using HTML, CSS, JavaScript
+- Deployed on GitHub Pages
+
+Todo Application
+- Simple task manager using React and local storage
+- First React project
+
+Blog Platform (Class Project)
+- Built using Django and SQLite
+- Implemented user authentication
+
+INTERESTS
+Learning new technologies, open source, hackathons

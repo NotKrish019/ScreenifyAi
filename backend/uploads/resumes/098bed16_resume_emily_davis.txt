@@ -1,0 +1,41 @@
+EMILY DAVIS
+Full-Stack JavaScript Developer
+Email: emily.davis@email.com | Phone: (555) 456-7890 | Portfolio: emilydavis.dev
+Location: Seattle, WA
+
+PROFILE
+Creative full-stack developer with 4+ years of experience building modern web applications. Expert in JavaScript/TypeScript ecosystem with strong React and Node.js skills. Passionate about user experience and clean architecture.
+
+CORE COMPETENCIES
+Frontend: React, TypeScript, Next.js, Vue.js, Redux, Tailwind CSS, Material UI
+Backend: Node.js, Express, NestJS, GraphQL, REST APIs
+Database: MongoDB, PostgreSQL, Redis, Firebase
+Cloud: AWS, Google Cloud Platform, Vercel, Netlify
+Tools: Git, Docker, Webpack, Jest, Cypress, Figma
+
+PROFESSIONAL EXPERIENCE
+
+Full-Stack Developer | InnovateTech | 2022 - Present
+- Built React Native mobile app with 100K+ downloads
+- Developed GraphQL APIs using Node.js and Apollo Server
+- Implemented microservices architecture on GCP
+- Led frontend architecture decisions for team of 6
+- Reduced page load time by 50% through optimization
+
+Web Developer | Creative Agency | 2020 - 2022
+- Created responsive websites for 30+ clients using React
+- Built custom CMS solutions with Node.js and MongoDB
+- Integrated third-party APIs (Shopify, Stripe, Twilio)
+- Managed CI/CD pipelines with GitHub Actions
+
+Junior Developer | Digital Studio | 2019 - 2020
+- Developed websites using JavaScript, HTML, CSS
+- Learned React and modern frontend practices
+- Collaborated with UX designers
+
+EDUCATION
+Bachelor of Science in Web Development | University of Washington | 2019
+
+CERTIFICATIONS
+- Google Cloud Professional Developer
+- MongoDB Certified Developer

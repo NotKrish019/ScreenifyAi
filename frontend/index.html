@@ -9,6 +9,19 @@
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+  <!-- App Config -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Protect route
+    document.addEventListener('DOMContentLoaded', checkAuth);
+  </script>
   <style>
     * {
       margin: 0;
@@ -1402,15 +1415,30 @@
         setSelectedCandidates([]);
 
         try {
-          await fetch(`${API}/upload-jd-text`, {
+          // 1. Upload JD Text
+          console.log("Step 1: Uploading JD Text...");
+          const jdRes = await fetch(`${API}/upload-jd-text`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: jd })
           });
 
-          await fetch(`${API}/analyze`, { method: "POST" });
+          if (!jdRes.ok) throw new Error(`JD Upload failed: ${jdRes.status} ${jdRes.statusText}`);
 
-          const res = await fetch(`${API}/results?use_ai=true`);
+          // 2. Trigger Analysis
+          console.log("Step 2: Triggering Analysis...");
+          const analyzeRes = await fetch(`${API}/analyze`, { method: "POST" });
+
+          if (!analyzeRes.ok) {
+            const errText = await analyzeRes.text(); // Get server error message if any
+            throw new Error(`Analysis failed: ${analyzeRes.status} - ${errText || analyzeRes.statusText}`);
+          }
+
+          // 3. Fetch Results
+          console.log("Step 3: Fetching Results...");
+          const res = await fetch(`${API}/results?use_ai=false`);
+          if (!res.ok) throw new Error(`Fetch Results failed: ${res.status}`);
+
           const data = await res.json();
           setResults(data.results);
 
@@ -1418,7 +1446,8 @@
             document.getElementById("results")?.scrollIntoView({ behavior: "smooth" });
           }, 100);
         } catch (e) {
-          alert("Error: " + e.message);
+          console.error("Analysis Error Details:", e);
+          alert("Analysis Error: " + e.message + "\n\nCheck console for more details.");
         } finally {
           setLoading(false);
         }
@@ -1549,6 +1578,9 @@
                 </div>
 
                 <div className="header-controls">
+                  <div id="user-info" style={{ fontSize: '14px', marginRight: '15px', color: 'var(--text-muted)', display: 'none' }}>
+                    <span id="user-email"></span>
+                  </div>
                   <div className="theme-controls">
                     <button
                       className={`theme-btn ${theme === 'light' ? 'active' : ''}`}
@@ -1563,6 +1595,16 @@
                       🌙 Dark
                     </button>
                   </div>
+                  <button
+                    className="theme-btn"
+                    title="Sign Out"
+                    onClick={() => window.logout()}
+                    style={{ marginLeft: '8px', color: 'var(--danger)' }}
+                  >
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                  </button>
                   <button className="btn btn-reset" onClick={reset}>
                     🔄 Reset
                   </button>
@@ -1699,7 +1741,7 @@
                     Analyzing with AI...
                   </>
                 ) : (
-                  <>🤖 Analyze with AI</>
+                  <>⚡ Calculate Match Scores</>
                 )}
               </button>
               {!loading && files.length === 0 && (
