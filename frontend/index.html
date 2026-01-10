@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,16 +19,46 @@
 
     :root {
       --bg: #0a0a0f;
+      --bg-secondary: #06060a;
       --surface: #12121a;
       --surface-hover: #1a1a24;
       --border: #2a2a3a;
+      --border-soft: #1e1e2a;
       --text: #ffffff;
       --text-muted: #8a8a9a;
+      --text-soft: #6a6a7a;
       --primary: #6366f1;
       --primary-hover: #818cf8;
+      --primary-glow: rgba(99, 102, 241, 0.4);
+      --primary-subtle: rgba(99, 102, 241, 0.08);
       --success: #22c55e;
+      --success-subtle: rgba(34, 197, 94, 0.1);
       --warning: #eab308;
+      --warning-subtle: rgba(234, 179, 8, 0.1);
       --danger: #ef4444;
+      --danger-subtle: rgba(239, 68, 68, 0.1);
+      --gradient-1: #6366f1;
+      --gradient-2: #8b5cf6;
+      --gradient-3: #a855f7;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-secondary: #f1f5f9;
+      --surface: #ffffff;
+      --surface-hover: #f8fafc;
+      --border: #e2e8f0;
+      --border-soft: #f1f5f9;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --text-soft: #94a3b8;
+      --primary: #4f46e5;
+      --primary-hover: #6366f1;
+      --primary-glow: rgba(79, 70, 229, 0.2);
+      --primary-subtle: rgba(79, 70, 229, 0.05);
+      --success-subtle: rgba(34, 197, 94, 0.08);
+      --warning-subtle: rgba(234, 179, 8, 0.08);
+      --danger-subtle: rgba(239, 68, 68, 0.08);
     }
 
     body {
@@ -36,10 +67,95 @@
       color: var(--text);
       line-height: 1.6;
       min-height: 100vh;
+      overflow-x: hidden;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    /* Animated Background */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .wave {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(180deg, transparent 70%, var(--primary-glow) 100%);
+      opacity: 0.1;
+    }
+
+    .wave:nth-child(1) {
+      animation: wave 25s ease-in-out infinite;
+      bottom: -5%;
+    }
+
+    .wave:nth-child(2) {
+      animation: wave 30s ease-in-out infinite reverse;
+      bottom: -15%;
+      opacity: 0.07;
+    }
+
+    .wave:nth-child(3) {
+      animation: wave 35s ease-in-out infinite;
+      bottom: -25%;
+      opacity: 0.05;
+    }
+
+    @keyframes wave {
+      0%, 100% {
+        transform: translateX(0) translateY(0);
+      }
+      50% {
+        transform: translateX(-3%) translateY(8px);
+      }
+    }
+
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, var(--gradient-2), var(--gradient-1));
+      opacity: 0.04;
+    }
+
+    .bubble:nth-child(4) { width: 60px; height: 60px; left: 5%; top: 15%; animation: floatBubble 35s ease-in-out infinite; }
+    .bubble:nth-child(5) { width: 100px; height: 100px; left: 85%; top: 55%; animation: floatBubble 40s ease-in-out infinite -5s; }
+    .bubble:nth-child(6) { width: 45px; height: 45px; left: 45%; top: 75%; animation: floatBubble 32s ease-in-out infinite -10s; }
+    .bubble:nth-child(7) { width: 80px; height: 80px; left: 25%; top: 45%; animation: floatBubble 38s ease-in-out infinite -15s; }
+    .bubble:nth-child(8) { width: 55px; height: 55px; left: 75%; top: 25%; animation: floatBubble 42s ease-in-out infinite -8s; }
+    .bubble:nth-child(9) { width: 70px; height: 70px; left: 15%; top: 65%; animation: floatBubble 36s ease-in-out infinite -12s; }
+    .bubble:nth-child(10) { width: 40px; height: 40px; left: 55%; top: 10%; animation: floatBubble 30s ease-in-out infinite -3s; }
+    .bubble:nth-child(11) { width: 90px; height: 90px; left: 90%; top: 80%; animation: floatBubble 45s ease-in-out infinite -18s; }
+    .bubble:nth-child(12) { width: 35px; height: 35px; left: 35%; top: 30%; animation: floatBubble 33s ease-in-out infinite -7s; }
+    .bubble:nth-child(13) { width: 65px; height: 65px; left: 65%; top: 60%; animation: floatBubble 37s ease-in-out infinite -14s; }
+    .bubble:nth-child(14) { width: 50px; height: 50px; left: 10%; top: 85%; animation: floatBubble 34s ease-in-out infinite -20s; }
+    .bubble:nth-child(15) { width: 75px; height: 75px; left: 80%; top: 5%; animation: floatBubble 39s ease-in-out infinite -9s; }
+
+    @keyframes floatBubble {
+      0%, 100% {
+        transform: translateY(0) translateX(0) scale(1);
+      }
+      25% {
+        transform: translateY(-15px) translateX(8px) scale(1.02);
+      }
+      50% {
+        transform: translateY(-8px) translateX(-5px) scale(0.98);
+      }
+      75% {
+        transform: translateY(-20px) translateX(5px) scale(1.01);
+      }
     }
 
     .container {
-      max-width: 1000px;
+      max-width: 1400px;
       margin: 0 auto;
       padding: 0 24px;
     }
@@ -52,6 +168,8 @@
       position: sticky;
       top: 0;
       z-index: 100;
+      backdrop-filter: blur(20px);
+      transition: all 0.4s ease;
     }
 
     .header-inner {
@@ -67,107 +185,252 @@
     }
 
     .logo-icon {
-      width: 40px;
-      height: 40px;
-      background: var(--primary);
-      border-radius: 10px;
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2), var(--gradient-3));
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 4px 15px var(--primary-glow);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .logo:hover .logo-icon {
+      transform: scale(1.05) rotate(3deg);
+      box-shadow: 0 6px 25px var(--primary-glow);
     }
 
     .logo h1 {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 700;
+      position: relative;
+      text-decoration: underline;
+      text-decoration-color: var(--primary);
+      text-underline-offset: 4px;
+      text-decoration-thickness: 2px;
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .logo h1::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gradient-1), var(--gradient-2), var(--gradient-3));
+      transition: width 0.5s ease;
+    }
+
+    .logo:hover h1::after {
+      width: 100%;
+    }
+
+    .logo:hover h1 {
+      text-shadow: 0 0 20px var(--primary-glow);
+      text-decoration-color: transparent;
     }
 
     .logo span {
-      color: var(--primary);
+      background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .theme-controls {
+      display: flex;
+      gap: 4px;
+      background: var(--bg);
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .theme-btn {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-muted);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .theme-btn.active {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 2px 10px var(--primary-glow);
+    }
+
+    .theme-btn:hover:not(.active) {
+      background: var(--surface-hover);
+      color: var(--text);
     }
 
     /* Cards */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 20px;
+      border-radius: 20px;
+      padding: 28px;
+      margin-bottom: 24px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .card:hover {
+      border-color: var(--border);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12), 0 0 0 1px var(--primary-subtle);
+      transform: translateY(-3px);
     }
 
     .card-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     .card-title {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
     .step-num {
-      width: 28px;
-      height: 28px;
-      background: var(--primary);
-      border-radius: 8px;
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 700;
+      box-shadow: 0 4px 15px var(--primary-glow);
     }
 
     .card-title h2 {
-      font-size: 16px;
-      font-weight: 600;
+      font-size: 18px;
+      font-weight: 700;
     }
 
     .counter {
-      background: var(--border);
-      padding: 6px 12px;
+      background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+      padding: 8px 16px;
       border-radius: 20px;
       font-size: 13px;
       font-weight: 600;
+      color: white;
+      box-shadow: 0 2px 10px var(--primary-glow);
+    }
+
+    /* Two Column Layout */
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .two-column {
+        grid-template-columns: 1fr;
+      }
     }
 
     /* Textarea */
     .textarea {
       width: 100%;
-      min-height: 120px;
-      padding: 14px;
+      min-height: 180px;
+      padding: 16px;
       background: var(--bg);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 14px;
       color: var(--text);
       font-family: inherit;
       font-size: 14px;
       resize: vertical;
+      transition: all 0.3s ease;
     }
 
     .textarea:focus {
       outline: none;
       border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-subtle);
     }
 
     .textarea::placeholder {
       color: var(--text-muted);
     }
 
-    /* Upload Zone */
-    .upload-zone {
-      border: 2px dashed var(--border);
+    /* JD Upload Section */
+    .jd-upload-section {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .jd-upload-zone {
+      border: 1px dashed var(--border);
       border-radius: 12px;
-      padding: 40px 20px;
+      padding: 20px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.3s ease;
+      margin-bottom: 12px;
+    }
+
+    .jd-upload-zone:hover {
+      border-color: var(--primary);
+      background: var(--primary-subtle);
+    }
+
+    .jd-file-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border-soft);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .jd-file-item:hover {
+      border-color: var(--border);
+    }
+
+    /* Upload Zone */
+    .upload-zone {
+      border: 1px dashed var(--border);
+      border-radius: 16px;
+      padding: 50px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      background: transparent;
     }
 
     .upload-zone:hover {
       border-color: var(--primary);
-      background: rgba(99, 102, 241, 0.05);
+      background: var(--primary-subtle);
+      transform: translateY(-2px);
     }
 
     .upload-zone.active {
@@ -176,34 +439,55 @@
     }
 
     .upload-icon {
-      font-size: 32px;
-      margin-bottom: 12px;
+      font-size: 48px;
+      margin-bottom: 16px;
+      display: inline-block;
+      animation: gentleBounce 3s ease-in-out infinite;
+    }
+
+    @keyframes gentleBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
     }
 
     .upload-zone h3 {
-      font-size: 15px;
-      margin-bottom: 4px;
+      font-size: 16px;
+      margin-bottom: 8px;
+      font-weight: 600;
     }
 
     .upload-zone p {
-      font-size: 13px;
+      font-size: 14px;
       color: var(--text-muted);
     }
 
     /* File List */
+    .file-list {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 16px;
+    }
+
     .file-item {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px 14px;
+      gap: 14px;
+      padding: 14px 18px;
       background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      margin-bottom: 8px;
+      border: 1px solid var(--border-soft);
+      border-radius: 12px;
+      margin-bottom: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .file-item:hover {
+      border-color: var(--border);
+      background: var(--surface-hover);
+      transform: translateX(3px);
     }
 
     .file-icon {
-      font-size: 20px;
+      font-size: 24px;
     }
 
     .file-info {
@@ -212,20 +496,50 @@
 
     .file-name {
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .file-remove {
       background: none;
       border: none;
-      color: var(--text-muted);
+      color: var(--text-soft);
       cursor: pointer;
-      padding: 4px;
-      font-size: 18px;
+      padding: 8px;
+      font-size: 20px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
     }
 
     .file-remove:hover {
       color: var(--danger);
+      background: var(--danger-subtle);
+    }
+
+    /* Improve JD Button */
+    .btn-improve {
+      background: linear-gradient(135deg, var(--gradient-2), var(--gradient-3));
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 12px rgba(139, 92, 246, 0.25);
+    }
+
+    .btn-improve:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.35);
+    }
+
+    .btn-improve:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     /* Buttons */
@@ -233,125 +547,195 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 14px 28px;
+      gap: 10px;
+      padding: 16px 32px;
       border: none;
-      border-radius: 10px;
+      border-radius: 14px;
       font-family: inherit;
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.4s ease;
     }
 
     .btn-primary {
-      background: var(--primary);
+      background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
       color: white;
+      box-shadow: 0 4px 20px var(--primary-glow);
     }
 
     .btn-primary:hover:not(:disabled) {
-      background: var(--primary-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 28px var(--primary-glow);
     }
 
     .btn-primary:disabled {
       opacity: 0.5;
       cursor: not-allowed;
+      transform: none;
     }
 
     .btn-secondary {
       background: var(--border);
       color: var(--text);
-      padding: 10px 16px;
+      padding: 12px 20px;
+      font-size: 14px;
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface-hover);
+    }
+
+    .btn-reset {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      padding: 10px 18px;
       font-size: 13px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(239, 68, 68, 0.2);
+    }
+
+    .btn-reset:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
     }
 
     /* Action */
     .action {
       text-align: center;
-      padding: 20px 0 40px;
+      padding: 30px 0 50px;
     }
 
     .action-hint {
-      margin-top: 12px;
+      margin-top: 14px;
       color: var(--text-muted);
       font-size: 14px;
     }
 
     /* Results */
+    .results-section {
+      padding-bottom: 60px;
+    }
+
     .results-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
+      margin-bottom: 30px;
     }
 
     .results-header h2 {
-      font-size: 22px;
-      font-weight: 700;
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2), var(--gradient-3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .result-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      margin-bottom: 16px;
+      border-radius: 20px;
+      margin-bottom: 20px;
       overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .result-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.1);
+      border-color: var(--border);
     }
 
     .result-card.top {
-      border-color: var(--warning);
-      background: rgba(234, 179, 8, 0.05);
+      border-color: rgba(234, 179, 8, 0.3);
+      background: linear-gradient(135deg, var(--warning-subtle), transparent);
+    }
+
+    .result-card.top:hover {
+      border-color: rgba(234, 179, 8, 0.5);
     }
 
     .result-inner {
       display: flex;
+      position: relative;
     }
 
+    /* Rank Badge - Refined */
     .result-rank {
-      width: 60px;
+      position: absolute;
+      top: 20px;
+      left: 20px;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
+    }
+
+    .rank-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 36px;
+      height: 28px;
+      padding: 0 10px;
       background: var(--bg);
-      border-right: 1px solid var(--border);
-      padding: 20px 0;
-    }
-
-    .result-card.top .result-rank {
-      background: rgba(234, 179, 8, 0.1);
-    }
-
-    .rank-num {
-      font-size: 22px;
-      font-weight: 800;
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
       color: var(--text-muted);
+      transition: all 0.3s ease;
     }
 
-    .result-card.top .rank-num {
+    .result-card:hover .rank-badge {
+      border-color: var(--border);
+    }
+
+    .result-card.top .rank-badge {
+      background: var(--warning-subtle);
+      border-color: rgba(234, 179, 8, 0.2);
       color: var(--warning);
+    }
+
+    .rank-trophy {
+      font-size: 20px;
     }
 
     .result-body {
       flex: 1;
-      padding: 20px;
+      padding: 24px;
+      padding-left: 80px;
     }
 
     .result-top {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+    }
+
+    .result-name-section {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .result-name-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     .result-name {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
-      margin-bottom: 2px;
     }
 
     .result-title {
       font-size: 13px;
-      color: var(--text-muted);
+      color: var(--text-soft);
     }
 
     .result-score {
@@ -359,34 +743,26 @@
     }
 
     .score-value {
-      font-size: 28px;
+      font-size: 36px;
       font-weight: 800;
-      color: var(--primary);
+      background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .score-label {
-      font-size: 11px;
-      color: var(--text-muted);
+      font-size: 12px;
+      color: var(--text-soft);
       text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .result-summary {
       font-size: 14px;
       color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 14px;
-    }
-
-    .result-recommendation {
-      font-size: 13px;
-      padding: 10px 14px;
-      background: var(--bg);
-      border-radius: 8px;
-      margin-bottom: 14px;
-    }
-
-    .result-recommendation strong {
-      color: var(--primary);
+      line-height: 1.7;
+      margin-bottom: 18px;
     }
 
     /* Fit Badge */
@@ -394,46 +770,116 @@
       display: inline-block;
       padding: 4px 10px;
       border-radius: 6px;
-      font-size: 11px;
-      font-weight: 700;
+      font-size: 10px;
+      font-weight: 600;
       text-transform: uppercase;
-      margin-left: 10px;
+      letter-spacing: 0.5px;
     }
 
     .fit-high {
-      background: rgba(34, 197, 94, 0.2);
+      background: var(--success-subtle);
       color: var(--success);
     }
 
     .fit-medium {
-      background: rgba(234, 179, 8, 0.2);
+      background: var(--warning-subtle);
       color: var(--warning);
     }
 
     .fit-low {
-      background: rgba(239, 68, 68, 0.2);
+      background: var(--danger-subtle);
       color: var(--danger);
     }
 
+    /* Candidate Checkbox - Refined */
+    .candidate-checkbox-wrapper {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 5;
+    }
+
+    .candidate-checkbox {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--primary);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .candidate-checkbox:hover {
+      transform: scale(1.1);
+    }
+
     /* Skills */
+    .skills-section {
+      margin-top: 16px;
+    }
+
+    .skills-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-soft);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
     .skills-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 8px;
     }
 
     .skill {
-      padding: 4px 10px;
-      background: rgba(99, 102, 241, 0.15);
+      padding: 5px 12px;
+      background: var(--primary-subtle);
       color: var(--primary);
       border-radius: 6px;
       font-size: 12px;
       font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      border: 1px solid transparent;
+    }
+
+    .skill:hover {
+      transform: translateY(-1px);
+      background: rgba(99, 102, 241, 0.15);
+      border-color: var(--primary-subtle);
     }
 
     .skill.missing {
-      background: rgba(239, 68, 68, 0.15);
+      background: var(--danger-subtle);
       color: var(--danger);
+    }
+
+    .skill.missing:hover {
+      background: rgba(239, 68, 68, 0.15);
+    }
+
+    .skill-tooltip {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 11px;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s ease;
+      z-index: 10;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .skill:hover .skill-tooltip {
+      opacity: 1;
+      visibility: visible;
     }
 
     /* Loading */
@@ -441,13 +887,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      padding: 60px 0;
+      gap: 16px;
+      padding: 80px 0;
     }
 
     .spinner {
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       border: 3px solid var(--border);
       border-top-color: var(--primary);
       border-radius: 50%;
@@ -463,39 +909,283 @@
     /* Footer */
     .footer {
       text-align: center;
-      padding: 40px 0;
-      color: var(--text-muted);
-      font-size: 13px;
+      padding: 50px 0;
+      color: var(--text-soft);
+      font-size: 14px;
     }
 
     /* Hero */
     .hero {
       text-align: center;
-      padding: 48px 0 40px;
+      padding: 60px 0 50px;
     }
 
     .hero h2 {
-      font-size: 32px;
+      font-size: 48px;
       font-weight: 800;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--text) 0%, var(--gradient-1) 50%, var(--gradient-2) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradient-shift 6s ease infinite;
+      transition: all 0.5s ease;
+      cursor: default;
+    }
+
+    .hero h2:hover {
+      transform: scale(1.02);
+      filter: drop-shadow(0 0 25px var(--primary-glow));
+      animation: gradient-shift 2s ease infinite;
+    }
+
+    @keyframes gradient-shift {
+      0% { background-position: 0% center; }
+      50% { background-position: 100% center; }
+      100% { background-position: 0% center; }
     }
 
     .hero p {
       color: var(--text-muted);
-      font-size: 16px;
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto;
     }
 
-    .hero .badge {
-      display: inline-flex;
+    /* Compare Button */
+    .compare-floating {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 1000;
+      box-shadow: 0 4px 24px var(--primary-glow);
+      transition: all 0.4s ease;
+    }
+
+    .compare-floating:hover:not(:disabled) {
+      box-shadow: 0 6px 32px var(--primary-glow);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
       align-items: center;
-      gap: 6px;
-      background: rgba(99, 102, 241, 0.15);
-      color: var(--primary);
-      padding: 6px 14px;
+      justify-content: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-content {
+      background: var(--surface);
+      padding: 32px;
       border-radius: 20px;
+      max-width: 720px;
+      width: 90%;
+      max-height: 88vh;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+      animation: slideUp 0.35s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .modal-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 24px;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* Refined Modal Sections */
+    .modal-section {
+      margin-bottom: 24px;
+      padding: 20px;
+      background: var(--bg);
+      border-radius: 14px;
+      border: 1px solid var(--border-soft);
+      transition: all 0.3s ease;
+    }
+
+    .modal-section:hover {
+      border-color: var(--border);
+    }
+
+    .modal-section h3 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+    }
+
+    .modal-section.strengths h3 {
+      color: var(--success);
+    }
+
+    .modal-section.improvements h3 {
+      color: var(--warning);
+    }
+
+    .modal-section.suggestions h3 {
+      color: var(--primary);
+    }
+
+    .modal-section ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--text-muted);
+    }
+
+    .modal-section li {
+      margin-bottom: 8px;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .modal-section li:last-child {
+      margin-bottom: 0;
+    }
+
+    .modal-section.improved {
+      background: transparent;
+      border: none;
+      padding: 0;
+      margin-top: 28px;
+    }
+
+    .modal-section.improved h3 {
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    /* Comparison Modal */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 600px) {
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .comparison-column {
+      padding: 20px;
+      background: var(--bg);
+      border-radius: 14px;
+      border: 1px solid var(--border-soft);
+      transition: all 0.3s ease;
+    }
+
+    .comparison-column:hover {
+      border-color: var(--border);
+    }
+
+    .comparison-column h4 {
       font-size: 13px;
       font-weight: 600;
       margin-bottom: 16px;
+      color: var(--primary);
+    }
+
+    .comparison-column p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .comparison-recommendation {
+      padding: 20px;
+      background: var(--primary-subtle);
+      border-radius: 14px;
+      border: 1px solid rgba(99, 102, 241, 0.15);
+    }
+
+    .comparison-recommendation h5 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .comparison-recommendation p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-muted);
     }
   </style>
 </head>
@@ -504,17 +1194,18 @@
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState, useRef } = React;
+    const { useState, useRef, useEffect } = React;
     const API = "http://localhost:8000";
 
     function App() {
       const [jd, setJd] = useState('');
+      const [jdFiles, setJdFiles] = useState([]);
       const [files, setFiles] = useState([]);
       const [loading, setLoading] = useState(false);
       const [results, setResults] = useState(null);
       const [dragActive, setDragActive] = useState(false);
+      const [theme, setTheme] = useState('dark');
 
-      // New State for Features
       const [jdAnalysis, setJdAnalysis] = useState(null);
       const [improvingJd, setImprovingJd] = useState(false);
       const [selectedCandidates, setSelectedCandidates] = useState([]);
@@ -524,36 +1215,31 @@
       const [showCompareModal, setShowCompareModal] = useState(false);
 
       const inputRef = useRef(null);
+      const jdInputRef = useRef(null);
 
-      // Fetch initial state on mount
-      React.useEffect(() => {
+      useEffect(() => {
+        const savedTheme = sessionStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      }, []);
+
+      const toggleTheme = (newTheme) => {
+        setTheme(newTheme);
+        sessionStorage.setItem('theme', newTheme);
+        document.documentElement.setAttribute('data-theme', newTheme);
+      };
+
+      useEffect(() => {
         const fetchState = async () => {
           try {
-            // Get resumes
             const resResumes = await fetch(`${API}/resumes`);
             const dataResumes = await resResumes.json();
             if (dataResumes.resumes) {
               setFiles(dataResumes.resumes);
             }
 
-            // Get JD status
             const resJd = await fetch(`${API}/jd-status`);
             const dataJd = await resJd.json();
-            if (dataJd.uploaded) {
-              // We don't get the original text back easily unless we specifically ask for it
-              // For now, let's just assume if it's uploaded, we can maybe leave it or just show the status
-              // But the textarea needs the text to be editable.
-              // The backend endpoint /jd-status doesn't return the text by default according to step 135 view
-              // Line 664 just returns text_length.
-              // Wait, logic in step 153 upload-jd-text sets app_state.jd_text
-              // Does /jd-status return text?
-              // Step 135: 
-              // "text_length": len(app_state.jd_text),
-              // "analysis": app_state.jd_analysis
-              // It does NOT return the full text. 
-              // So we can't restore the JD text box value. 
-              // That's okay, at least resumes will sync.
-            }
           } catch (e) {
             console.error("Failed to sync state:", e);
           }
@@ -580,6 +1266,24 @@
         }
       };
 
+      const handleJdFileUpload = (fileList) => {
+        const arr = Array.from(fileList);
+        arr.forEach(file => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            setJdFiles(prev => [...prev, { name: file.name, id: Date.now() + Math.random() }]);
+            if (file.name.endsWith('.txt')) {
+              setJd(prev => prev + (prev ? '\n\n' : '') + e.target.result);
+            }
+          };
+          reader.readAsText(file);
+        });
+      };
+
+      const removeJdFile = (id) => {
+        setJdFiles(prev => prev.filter(f => f.id !== id));
+      };
+
       const removeFile = async (id) => {
         await fetch(`${API}/resumes/${id}`, { method: "DELETE" });
         setFiles(prev => prev.filter(f => f.id !== id));
@@ -593,17 +1297,14 @@
         setSelectedCandidates([]);
 
         try {
-          // Upload JD
           await fetch(`${API}/upload-jd-text`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: jd })
           });
 
-          // Analyze
           await fetch(`${API}/analyze`, { method: "POST" });
 
-          // Get results
           const res = await fetch(`${API}/results?use_ai=true`);
           const data = await res.json();
           setResults(data.results);
@@ -669,11 +1370,11 @@
         }
       };
 
-      const reset = async () => {
-        await fetch(`${API}/reset`, { method: "POST" });
+      const reset = () => {
         setFiles([]);
         setResults(null);
         setJd('');
+        setJdFiles([]);
         setJdAnalysis(null);
         setComparisonResult(null);
         setSelectedCandidates([]);
@@ -681,94 +1382,173 @@
 
       return (
         <>
+          {/* Animated Background */}
+          <div className="animated-bg">
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="bubble"></div>
+            <div className="bubble"></div>
+            <div className="bubble"></div>
+            <div className="bubble"></div>
+            <div className="bubble"></div>
+            <div className="bubble"></div>
+            <div className="bubble"></div>
+            <div className="bubble"></div>
+            <div className="bubble"></div>
+            <div className="bubble"></div>
+            <div className="bubble"></div>
+            <div className="bubble"></div>
+          </div>
+
           <header className="header">
             <div className="container">
               <div className="header-inner">
                 <div className="logo">
                   <div className="logo-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
                       <circle cx="12" cy="8" r="4" />
                       <path d="M6 20c0-4 3-6 6-6s6 2 6 6" />
                     </svg>
                   </div>
                   <h1>Resume<span>AI</span> Pro</h1>
                 </div>
-                {files.length > 0 && (
-                  <button className="btn btn-secondary" onClick={reset}>Reset</button>
-                )}
+
+                <div className="header-controls">
+                  <div className="theme-controls">
+                    <button 
+                      className={`theme-btn ${theme === 'light' ? 'active' : ''}`}
+                      onClick={() => toggleTheme('light')}
+                    >
+                      ☀️ Light
+                    </button>
+                    <button 
+                      className={`theme-btn ${theme === 'dark' ? 'active' : ''}`}
+                      onClick={() => toggleTheme('dark')}
+                    >
+                      🌙 Dark
+                    </button>
+                  </div>
+                  <button className="btn btn-reset" onClick={reset}>
+                    🔄 Reset
+                  </button>
+                </div>
               </div>
             </div>
           </header>
 
           <main className="container">
             <section className="hero">
-              <div className="badge">✨ Powered by OpenAI GPT-4</div>
               <h2>AI-Powered Resume Screening</h2>
               <p>Upload resumes and get intelligent, personalized candidate analysis in seconds.</p>
             </section>
 
-            {/* Step 1: JD */}
-            <div className="card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="step-num">1</div>
-                  <h2>Job Description</h2>
-                </div>
-                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                  {jd.length > 50 && <span style={{ color: 'var(--success)' }}>✓</span>}
+            {/* Two Column Layout */}
+            <div className="two-column">
+              {/* Left: Job Description */}
+              <div className="card">
+                <div className="card-header">
+                  <div className="card-title">
+                    <div className="step-num">1</div>
+                    <h2>Job Description</h2>
+                  </div>
                   {jd.length > 50 && (
-                    <button className="btn btn-secondary" onClick={improveJd} disabled={improvingJd}>
-                      {improvingJd ? "Analyzing..." : "✨ Improve JD"}
+                    <button className="btn-improve" onClick={improveJd} disabled={improvingJd}>
+                      {improvingJd ? (
+                        <>
+                          <div className="spinner" style={{ width: 16, height: 16, borderWidth: 2 }}></div>
+                          Analyzing...
+                        </>
+                      ) : (
+                        <>✨ Improve JD with AI</>
+                      )}
                     </button>
                   )}
                 </div>
-              </div>
-              <textarea
-                className="textarea"
-                placeholder="Paste the job description here...&#10;&#10;Example: We're looking for a Full-Stack Developer with 3+ years experience in React, Node.js, Python, AWS..."
-                value={jd}
-                onChange={(e) => setJd(e.target.value)}
-              />
-            </div>
-
-            {/* Step 2: Resumes */}
-            <div className="card">
-              <div className="card-header">
-                <div className="card-title">
-                  <div className="step-num">2</div>
-                  <h2>Upload Resumes</h2>
-                </div>
-                <div className="counter">{files.length} uploaded</div>
-              </div>
-
-              {files.map(f => (
-                <div key={f.id} className="file-item">
-                  <span className="file-icon">📄</span>
-                  <div className="file-info">
-                    <div className="file-name">{f.name}</div>
-                  </div>
-                  <button className="file-remove" onClick={() => removeFile(f.id)}>×</button>
-                </div>
-              ))}
-
-              <div
-                className={`upload-zone ${dragActive ? 'active' : ''}`}
-                onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
-                onDragLeave={() => setDragActive(false)}
-                onDrop={(e) => { e.preventDefault(); setDragActive(false); uploadFile(e.dataTransfer.files); }}
-                onClick={() => inputRef.current?.click()}
-              >
-                <div className="upload-icon">📁</div>
-                <h3>Drop files here or click to browse</h3>
-                <p>PDF, DOCX, or TXT files</p>
-                <input
-                  ref={inputRef}
-                  type="file"
-                  multiple
-                  accept=".pdf,.docx,.txt"
-                  style={{ display: 'none' }}
-                  onChange={(e) => { uploadFile(e.target.files); e.target.value = ''; }}
+                
+                <textarea
+                  className="textarea"
+                  placeholder="Paste the job description here...&#10;&#10;Example: We're looking for a Full-Stack Developer with 3+ years experience in React, Node.js, Python, AWS..."
+                  value={jd}
+                  onChange={(e) => setJd(e.target.value)}
                 />
+
+                <div className="jd-upload-section">
+                  <div className="skills-label">Or upload JD file</div>
+                  
+                  {jdFiles.map(f => (
+                    <div key={f.id} className="jd-file-item">
+                      <span>📋</span>
+                      <div style={{ flex: 1 }}>
+                        <div className="file-name">{f.name}</div>
+                      </div>
+                      <button className="file-remove" onClick={() => removeJdFile(f.id)}>×</button>
+                    </div>
+                  ))}
+
+                  <div 
+                    className="jd-upload-zone"
+                    onClick={() => jdInputRef.current?.click()}
+                  >
+                    <div>📄 Click to upload JD (PDF, Word, Excel, TXT)</div>
+                    <input
+                      ref={jdInputRef}
+                      type="file"
+                      accept=".pdf,.doc,.docx,.xls,.xlsx,.txt"
+                      style={{ display: 'none' }}
+                      onChange={(e) => { handleJdFileUpload(e.target.files); e.target.value = ''; }}
+                    />
+                  </div>
+                </div>
+
+                {jd.length > 50 && (
+                  <div style={{ marginTop: '12px', color: 'var(--success)', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    ✓ JD ready ({jd.length} characters)
+                  </div>
+                )}
+              </div>
+
+              {/* Right: Resume Upload */}
+              <div className="card">
+                <div className="card-header">
+                  <div className="card-title">
+                    <div className="step-num">2</div>
+                    <h2>Upload Resumes</h2>
+                  </div>
+                  <div className="counter">{files.length} Uploaded</div>
+                </div>
+
+                <div className="file-list">
+                  {files.map(f => (
+                    <div key={f.id} className="file-item">
+                      <span className="file-icon">📄</span>
+                      <div className="file-info">
+                        <div className="file-name">{f.name}</div>
+                      </div>
+                      <button className="file-remove" onClick={() => removeFile(f.id)}>×</button>
+                    </div>
+                  ))}
+                </div>
+
+                <div
+                  className={`upload-zone ${dragActive ? 'active' : ''}`}
+                  onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
+                  onDragLeave={() => setDragActive(false)}
+                  onDrop={(e) => { e.preventDefault(); setDragActive(false); uploadFile(e.dataTransfer.files); }}
+                  onClick={() => inputRef.current?.click()}
+                >
+                  <div className="upload-icon">📁</div>
+                  <h3>Drop files here or click to browse</h3>
+                  <p>PDF, DOCX, or TXT files</p>
+                  <input
+                    ref={inputRef}
+                    type="file"
+                    multiple
+                    accept=".pdf,.docx,.txt"
+                    style={{ display: 'none' }}
+                    onChange={(e) => { uploadFile(e.target.files); e.target.value = ''; }}
+                  />
+                </div>
               </div>
             </div>
 
@@ -781,7 +1561,7 @@
               >
                 {loading ? (
                   <>
-                    <div className="spinner" style={{ width: 18, height: 18, borderWidth: 2 }}></div>
+                    <div className="spinner" style={{ width: 20, height: 20, borderWidth: 2 }}></div>
                     Analyzing with AI...
                   </>
                 ) : (
@@ -795,52 +1575,71 @@
 
             {/* Results */}
             {results && (
-              <section id="results" style={{ paddingBottom: 40 }}>
+              <section id="results" className="results-section">
                 <div className="results-header">
-                  <h2>Analysis Results</h2>
+                  <h2>📊 Analysis Results</h2>
                   <span style={{ color: 'var(--text-muted)', fontSize: 14 }}>
-                    {results.length} candidates ranked by AI
+                    {results.length} candidates ranked
                   </span>
                 </div>
 
                 {results.map((r, i) => (
                   <div key={r.id || i} className={`result-card ${i === 0 ? 'top' : ''}`}>
                     <div className="result-inner">
+                      {/* Rank Badge */}
                       <div className="result-rank">
-                        {i === 0 ? '🏆' : <span className="rank-num">#{r.rank}</span>}
+                        {i === 0 ? (
+                          <span className="rank-trophy">🏆</span>
+                        ) : (
+                          <span className="rank-badge">Rank {r.rank}</span>
+                        )}
                       </div>
+
+                      {/* Checkbox positioned top-right */}
+                      <div className="candidate-checkbox-wrapper">
+                        <input
+                          type="checkbox"
+                          className="candidate-checkbox"
+                          checked={selectedCandidates.includes(r.id)}
+                          onChange={() => toggleCandidate(r.id)}
+                          title="Select for comparison"
+                        />
+                      </div>
+
                       <div className="result-body">
                         <div className="result-top">
-                          <div>
-                            <div className="result-name">
-                              <input
-                                type="checkbox"
-                                style={{ marginRight: 10, transform: "scale(1.2)" }}
-                                checked={selectedCandidates.includes(r.id)}
-                                onChange={() => toggleCandidate(r.id)}
-                              />
-                              {r.resume_name}
+                          <div className="result-name-section">
+                            <div className="result-name-row">
+                              <span className="result-name">{r.resume_name}</span>
                               <span className={`fit-badge fit-${r.fit?.toLowerCase()}`}>
                                 {r.fit}
                               </span>
                             </div>
-                            <div className="result-title">Rank # {r.rank}</div>
                           </div>
                           <div className="result-score">
                             <div className="score-value">{r.match_score}%</div>
-                            <div className="score-label">Match</div>
+                            <div className="score-label">Match Score</div>
                           </div>
                         </div>
 
                         <div className="result-summary">{r.summary}</div>
 
-                        <div className="skills-row">
-                          {r.matched_skills?.slice(0, 6).map(s => (
-                            <span key={s} className="skill">{s}</span>
-                          ))}
-                          {r.missing_skills?.slice(0, 3).map(s => (
-                            <span key={s} className="skill missing">-{s}</span>
-                          ))}
+                        <div className="skills-section">
+                          <div className="skills-label">Skills</div>
+                          <div className="skills-row">
+                            {r.matched_skills?.slice(0, 8).map(s => (
+                              <span key={s} className="skill">
+                                {s}
+                                <span className="skill-tooltip">✓ Matched skill</span>
+                              </span>
+                            ))}
+                            {r.missing_skills?.slice(0, 4).map(s => (
+                              <span key={s} className="skill missing">
+                                {s}
+                                <span className="skill-tooltip">⚠️ Gap area</span>
+                              </span>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -849,58 +1648,54 @@
               </section>
             )}
 
-            {/* JD Analysis Modal */}
+            {/* JD Analysis Modal - Refined */}
             {showJdModal && jdAnalysis && (
-              <div style={{
-                position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-                background: 'rgba(0,0,0,0.8)', zIndex: 1000, display: 'flex',
-                alignItems: 'center', justifyContent: 'center'
-              }}>
-                <div style={{
-                  background: 'var(--surface)', padding: '30px', borderRadius: '16px',
-                  maxWidth: '700px', width: '90%', maxHeight: '85vh', overflowY: 'auto',
-                  border: '1px solid var(--border)'
-                }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-                    <h2>Starting JD Analysis</h2>
-                    <button onClick={() => setShowJdModal(false)} style={{ background: 'none', border: 'none', color: 'white', fontSize: '24px', cursor: 'pointer' }}>×</button>
+              <div className="modal-overlay" onClick={() => setShowJdModal(false)}>
+                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                  <div className="modal-header">
+                    <h2>JD Analysis</h2>
+                    <button className="modal-close" onClick={() => setShowJdModal(false)}>×</button>
                   </div>
 
-                  {/* New Section: Strengths */}
-                  <div style={{ marginBottom: '20px' }}>
-                    <h3 style={{ color: 'var(--success)', marginBottom: '8px' }}>Strengths</h3>
-                    <ul style={{ marginLeft: '20px', color: 'var(--text-muted)' }}>
-                      {jdAnalysis.strengths?.map(s => <li key={s}>{s}</li>)}
+                  <div className="modal-section strengths">
+                    <h3>💪 Strengths</h3>
+                    <ul>
+                      {jdAnalysis.strengths?.map((s, i) => <li key={i}>{s}</li>)}
                     </ul>
                   </div>
 
-                  {/* New Section: Weaknesses */}
-                  <div style={{ marginBottom: '20px' }}>
-                    <h3 style={{ color: 'var(--warning)', marginBottom: '8px' }}>Potential Improvements</h3>
-                    <ul style={{ marginLeft: '20px', color: 'var(--text-muted)' }}>
-                      {jdAnalysis.weaknesses?.map(w => <li key={w}>{w}</li>)}
+                  <div className="modal-section improvements">
+                    <h3>💡 Potential Improvements</h3>
+                    <ul>
+                      {jdAnalysis.weaknesses?.map((w, i) => <li key={i}>{w}</li>)}
                     </ul>
                   </div>
 
-                  {/* New Section: Suggestions */}
-                  <div style={{ marginBottom: '20px' }}>
-                    <h3 style={{ color: 'var(--primary)', marginBottom: '8px' }}>Suggestions</h3>
-                    <ul style={{ marginLeft: '20px', color: 'var(--text-muted)' }}>
-                      {jdAnalysis.suggestions?.map(s => <li key={s}>{s}</li>)}
+                  <div className="modal-section suggestions">
+                    <h3>✨ Suggestions</h3>
+                    <ul>
+                      {jdAnalysis.suggestions?.map((s, i) => <li key={i}>{s}</li>)}
                     </ul>
                   </div>
 
-                  <h3 style={{ marginBottom: '8px' }}>Improved Version</h3>
-                  <textarea
-                    className="textarea"
-                    style={{ minHeight: '200px' }}
-                    value={jdAnalysis.improved_version}
-                    readOnly
-                  />
-                  <button className="btn btn-primary" style={{ marginTop: '20px', width: '100%' }} onClick={() => {
-                    setJd(jdAnalysis.improved_version);
-                    setShowJdModal(false);
-                  }}>
+                  <div className="modal-section improved">
+                    <h3>📝 Improved Version</h3>
+                    <textarea
+                      className="textarea"
+                      style={{ minHeight: '180px' }}
+                      value={jdAnalysis.improved_version}
+                      readOnly
+                    />
+                  </div>
+
+                  <button 
+                    className="btn btn-primary" 
+                    style={{ width: '100%', marginTop: '20px' }} 
+                    onClick={() => {
+                      setJd(jdAnalysis.improved_version);
+                      setShowJdModal(false);
+                    }}
+                  >
                     Use Improved Description
                   </button>
                 </div>
@@ -910,55 +1705,71 @@
             {/* Floating Compare Button */}
             {selectedCandidates.length > 0 && (
               <button
-                className="btn btn-primary position-fixed bottom-0 end-0 m-4 rounded-pill shadow-lg px-4 py-3"
-                style={{ zIndex: 1000 }}
+                className="btn btn-primary compare-floating"
                 onClick={compareCandidates}
                 disabled={selectedCandidates.length !== 2 || comparing}
               >
                 {comparing ? (
-                  <>Comparing...</>
+                  <>
+                    <div className="spinner" style={{ width: 18, height: 18, borderWidth: 2 }}></div>
+                    Comparing...
+                  </>
                 ) : (
-                  <>Compare ({selectedCandidates.length}/2)</>
+                  <>🔄 Compare ({selectedCandidates.length}/2)</>
                 )}
               </button>
             )}
 
             {/* Comparison Modal */}
             {showCompareModal && comparisonResult && (
-              <div style={{
-                position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-                background: 'rgba(0,0,0,0.8)', zIndex: 1100, display: 'flex',
-                alignItems: 'center', justifyContent: 'center'
-              }}>
-                <div style={{
-                  background: '#1e1e1e', padding: '30px', borderRadius: '12px',
-                  maxWidth: '900px', width: '90%', maxHeight: '90vh', overflowY: 'auto',
-                  border: '1px solid #333', boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
-                }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <div className="modal-overlay" onClick={() => setShowCompareModal(false)}>
+                <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '800px' }}>
+                  <div className="modal-header">
                     <h2>Candidate Comparison</h2>
-                    <button onClick={() => setShowCompareModal(false)} style={{ background: 'none', border: 'none', color: '#fff', fontSize: '24px', cursor: 'pointer' }}>×</button>
+                    <button className="modal-close" onClick={() => setShowCompareModal(false)}>×</button>
                   </div>
 
-                  <div className="row">
-                    {/* Candidate 1 */}
-                    <div className="col-md-6 border-end border-secondary p-3">
-                      <h4 className="text-info">{comparisonResult.unique_to_first.length > comparisonResult.unique_to_second.length ? "More Unique Skills" : ""}</h4>
-                      <p><strong>Common Skills:</strong> {comparisonResult.common_skills.join(", ") || "None"}</p>
-                      <p><strong>Unique Skills:</strong> {comparisonResult.unique_to_first.join(", ") || "None"}</p>
+                  <div className="comparison-grid">
+                    <div className="comparison-column">
+                      <h4>Candidate 1</h4>
+                      <p><strong>Common Skills:</strong></p>
+                      <div className="skills-row" style={{ marginBottom: '16px' }}>
+                        {comparisonResult.common_skills?.map(s => (
+                          <span key={s} className="skill">{s}</span>
+                        ))}
+                        {(!comparisonResult.common_skills || comparisonResult.common_skills.length === 0) && (
+                          <span style={{ color: 'var(--text-muted)', fontSize: '13px' }}>None</span>
+                        )}
+                      </div>
+                      <p><strong>Unique Skills:</strong></p>
+                      <div className="skills-row">
+                        {comparisonResult.unique_to_first?.map(s => (
+                          <span key={s} className="skill">{s}</span>
+                        ))}
+                        {(!comparisonResult.unique_to_first || comparisonResult.unique_to_first.length === 0) && (
+                          <span style={{ color: 'var(--text-muted)', fontSize: '13px' }}>None</span>
+                        )}
+                      </div>
                     </div>
-                    {/* Candidate 2 */}
-                    <div className="col-md-6 p-3">
-                      <h4 className="text-info">{comparisonResult.unique_to_second.length > comparisonResult.unique_to_first.length ? "More Unique Skills" : ""}</h4>
-                      <p><strong>Unique Skills:</strong> {comparisonResult.unique_to_second.join(", ") || "None"}</p>
+
+                    <div className="comparison-column">
+                      <h4>Candidate 2</h4>
+                      <p><strong>Unique Skills:</strong></p>
+                      <div className="skills-row">
+                        {comparisonResult.unique_to_second?.map(s => (
+                          <span key={s} className="skill">{s}</span>
+                        ))}
+                        {(!comparisonResult.unique_to_second || comparisonResult.unique_to_second.length === 0) && (
+                          <span style={{ color: 'var(--text-muted)', fontSize: '13px' }}>None</span>
+                        )}
+                      </div>
                     </div>
                   </div>
 
-                  <div className="mt-4 p-3 bg-secondary bg-opacity-10 rounded border border-info">
-                    <h5 className="text-info">AI Recommendation</h5>
-                    <p className="mb-0">{comparisonResult.recommendation}</p>
+                  <div className="comparison-recommendation">
+                    <h5>🤖 AI Recommendation</h5>
+                    <p>{comparisonResult.recommendation}</p>
                   </div>
-
                 </div>
               </div>
             )}
@@ -966,7 +1777,7 @@
           </main>
 
           <footer className="footer">
-            <p>ResumeAI Pro • Powered by OpenAI GPT-4o-mini</p>
+            <p>ResumeAI Pro</p>
           </footer>
         </>
       );
