@@ -8,8 +8,8 @@ import logging
 from typing import List, Dict, Optional
 from dataclasses import dataclass
 
-from config import SCORE_THRESHOLDS, SUMMARY_TEMPLATES
-from models import ResumeResult, FitCategory
+from backend.config import SCORE_THRESHOLDS, SUMMARY_TEMPLATES
+from backend.models import ResumeResult, FitCategory
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

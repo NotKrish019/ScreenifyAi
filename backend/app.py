@@ -19,7 +19,8 @@ import pdfplumber
 from docx import Document
 
 # OpenAI service
-from openai_service import analyze_resume, batch_analyze_resumes
+from backend.openai_service import analyze_resume, batch_analyze_resumes
+from backend.ai_service import ai_service
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
@@ -109,6 +110,10 @@ class JobDescription(BaseModel):
     text: str
 
 
+class CompareRequest(BaseModel):
+    candidate_ids: List[str]
+
+
 # --- API Endpoints ---
 @app.get("/")
 async def root():
@@ -185,6 +190,27 @@ async def get_resumes():
     }
 
 
+@app.post("/upload-jd-text")
+async def upload_jd_text(jd: JobDescription):
+    """Upload job description directly as JSON text."""
+    if not jd.text or len(jd.text) < 50:
+        raise HTTPException(400, "Job description too short")
+    app_state.job_description = jd.text
+    logger.info(f"📝 JD uploaded (text): {len(jd.text)} chars")
+    return {"success": True, "length": len(jd.text)}
+
+
+@app.get("/jd-status")
+async def jd_status():
+    """Get current JD upload status."""
+    uploaded = bool(app_state.job_description)
+    return {
+        "uploaded": uploaded,
+        "text_length": len(app_state.job_description) if uploaded else 0,
+        "analysis": None
+    }
+
+
 @app.delete("/resumes/{resume_id}")
 async def remove_resume(resume_id: str):
     """Remove a resume by ID."""
@@ -218,24 +244,106 @@ async def analyze():
         resumes=[{"text": r["text"], "name": r["name"]} for r in app_state.resumes],
         job_description=app_state.job_description
     )
-    
+
+    # Attach resume IDs where possible so frontend can reference them
+    name_to_id = {r['name']: r['id'] for r in app_state.resumes}
+    for res in results:
+        # Try typical fields where filename or name might be stored
+        fname = res.get('file_name') or res.get('resume_name') or res.get('candidate_name')
+        res_id = None
+        if fname and fname in name_to_id:
+            res_id = name_to_id.get(fname)
+        else:
+            # Try case-insensitive exact match
+            for n, i in name_to_id.items():
+                if fname and n.lower() == fname.lower():
+                    res_id = i
+                    break
+            # Substring match
+            if not res_id and fname:
+                for n, i in name_to_id.items():
+                    if fname.lower() in n.lower() or n.lower() in fname.lower():
+                        res_id = i
+                        break
+        res['id'] = res_id
+
     app_state.results = results
-    logger.info(f"✅ Analysis complete! Top score: {results[0]['match_score']}%")
-    
+    logger.info(f"✅ Analysis complete! Top score: {results[0].get('match_score')}%")
+
     return {
         "success": True,
         "total_analyzed": len(results),
-        "top_candidate": results[0]["candidate_name"] if results else None
+        "top_candidate": results[0].get("candidate_name") if results else None
     }
 
 
+@app.post("/improve-jd")
+async def improve_jd(jd: JobDescription):
+    """Analyze and improve a job description using AI assistant."""
+    if not jd.text or len(jd.text) < 50:
+        raise HTTPException(400, "Job description too short")
+    try:
+        analysis = ai_service.improve_job_description(jd.text)
+        return {"analysis": analysis}
+    except Exception as e:
+        logger.error(f"JD improvement failed: {e}")
+        raise HTTPException(500, "JD improvement failed")
+
+
+@app.post("/compare")
+async def compare(req: CompareRequest):
+    """Compare two candidate results by their resume IDs."""
+    if not app_state.results:
+        raise HTTPException(404, "No results to compare. Run /analyze first.")
+    if len(req.candidate_ids) != 2:
+        raise HTTPException(400, "Provide exactly two candidate IDs to compare")
+
+    # Find results by attached id
+    res_map = {r.get('id'): r for r in app_state.results if r.get('id')}
+    r1 = res_map.get(req.candidate_ids[0])
+    r2 = res_map.get(req.candidate_ids[1])
+    if not r1 or not r2:
+        raise HTTPException(404, "One or both candidates not found in results")
+
+    skills1 = set(r1.get('matched_skills', []))
+    skills2 = set(r2.get('matched_skills', []))
+
+    comparison = {
+        'score_difference': (r1.get('match_score', 0) - r2.get('match_score', 0)),
+        'common_skills': list(skills1 & skills2),
+        'unique_to_first': list(skills1 - skills2),
+        'unique_to_second': list(skills2 - skills1),
+        'recommendation': r1.get('candidate_name') if r1.get('match_score', 0) > r2.get('match_score', 0) else r2.get('candidate_name')
+    }
+
+    return comparison
+
+
 @app.get("/results")
-async def get_results():
-    """Get analysis results."""
-    
+async def get_results(use_ai: bool = False):
+    """Get analysis results. Set use_ai=true for AI-enhanced summaries (optional)."""
+
     if not app_state.results:
         raise HTTPException(404, "No results. Run /analyze first.")
-    
+
+    # Placeholder for optional AI enrichment if requested
+    if use_ai:
+        try:
+            for r in app_state.results:
+                # If the summary is missing or basic, try to generate a richer one
+                if r.get('id') and ('summary' not in r or (isinstance(r.get('summary'), str) and len(r.get('summary')) < 30)):
+                    # Use the ai_service to generate a candidate summary when possible
+                    resume_text = next((x['text'] for x in app_state.resumes if x['id'] == r.get('id')), None)
+                    if resume_text:
+                        r['summary'] = ai_service.generate_candidate_summary(
+                            resume_text=resume_text,
+                            job_description=app_state.job_description,
+                            matched_skills=r.get('matched_skills', []),
+                            match_score=r.get('match_score', 0)
+                        )
+        except Exception as e:
+            logger.warning(f"AI enrichment failed: {e}")
+
     return {
         "success": True,
         "total": len(app_state.results),
@@ -259,7 +367,7 @@ async def reset():
     return {"success": True, "message": "All data cleared"}
 
 
-# Run with: uvicorn app:app --reload --port 8000
+# Run with: uvicorn backend.app:app --reload --port 8000
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("backend.app:app", host="0.0.0.0", port=8000, reload=True)

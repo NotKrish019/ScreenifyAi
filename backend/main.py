@@ -23,20 +23,20 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 # Local imports
-from config import (
+from backend.config import (
     CORS_ORIGINS, API_TITLE, API_DESCRIPTION, API_VERSION,
     JD_UPLOAD_DIR, RESUME_UPLOAD_DIR, MAX_RESUMES, ALLOWED_EXTENSIONS,
     MAX_FILE_SIZE_MB
 )
-from models import (
+from backend.models import (
     JobDescriptionText, ResumeResult, AnalysisResponse,
     UploadResponse, ErrorResponse, HealthResponse, CompareRequest
 )
-from resume_parser import resume_parser
-from nlp_engine import nlp_engine
-from similarity_engine import similarity_engine
-from ranking import ranking_engine, CandidateScore
-from ai_service import ai_service
+from backend.resume_parser import resume_parser
+from backend.nlp_engine import nlp_engine
+from backend.similarity_engine import similarity_engine
+from backend.ranking import ranking_engine, CandidateScore
+from backend.ai_service import ai_service
 
 # Configure logging
 logging.basicConfig(

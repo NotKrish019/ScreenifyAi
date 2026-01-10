@@ -42,7 +42,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Import config
-from config import DATASETS_DIR, JOB_ROLES_PATH, SKILLS_DATASET_PATH
+from backend.config import DATASETS_DIR, JOB_ROLES_PATH, SKILLS_DATASET_PATH
 
 
 class NLPEngine:

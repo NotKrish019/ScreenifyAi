@@ -9,8 +9,8 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from config import TFIDF_CONFIG, SKILL_WEIGHTS
-from nlp_engine import nlp_engine
+from backend.config import TFIDF_CONFIG, SKILL_WEIGHTS
+from backend.nlp_engine import nlp_engine
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
