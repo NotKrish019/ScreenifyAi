@@ -30,7 +30,7 @@ from config import (
 )
 from models import (
     JobDescriptionText, ResumeResult, AnalysisResponse,
-    UploadResponse, ErrorResponse, HealthResponse
+    UploadResponse, ErrorResponse, HealthResponse, CompareRequest
 )
 from resume_parser import resume_parser
 from nlp_engine import nlp_engine
@@ -664,6 +664,84 @@ async def get_jd_status():
         "text_length": len(app_state.jd_text),
         "analysis": app_state.jd_analysis
     }
+
+
+
+
+
+@app.post("/improve-jd", tags=["Analysis"])
+async def improve_job_description(jd: JobDescriptionText):
+    """
+    Analyze and suggest improvements for the job description.
+    """
+    if len(jd.text.strip()) < 50:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Job description must be at least 50 characters"
+        )
+        
+    try:
+        result = ai_service.improve_job_description(jd.text)
+        return {
+            "success": True,
+            "analysis": result
+        }
+    except Exception as e:
+        logger.error(f"JD Improvement error: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Analysis failed: {str(e)}"
+        )
+
+@app.post("/compare", tags=["Analysis"])
+async def compare_candidates(request: CompareRequest):
+    """
+    Compare selected candidates side-by-side.
+    """
+    if not app_state.jd_text:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Job description required"
+        )
+        
+    if len(request.candidate_ids) < 2:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Select at least 2 candidates to compare"
+        )
+        
+    # Get candidate data
+    candidates = []
+    for cid in request.candidate_ids:
+        cand = next((r for r in app_state.results if r.id == cid), None) # Use results, not resumes
+        if cand:
+            candidates_data = next((r for r in app_state.resumes if r["id"] == cid), None)
+            if candidates_data:
+                # We need CandidateScore objects for logic, but let's see what ai_service expects
+                # ai_service.compare_candidates expects Dict or object?
+                # Let's check ai_service.py to be sure.
+                # Actually, ai_service.compare_candidates takes (candidates_list, jd_text).
+                candidates.append(candidates_data)
+            
+    if len(candidates) < 2:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Selected candidates not found"
+        )
+        
+    try:
+        result = ai_service.compare_candidates(candidates, app_state.jd_text)
+        return {
+            "success": True,
+            "comparison": result
+        }
+    except Exception as e:
+        logger.error(f"Comparison error: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Comparison failed: {str(e)}"
+        )
+
 
 
 # --- Error Handlers ---

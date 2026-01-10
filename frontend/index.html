@@ -506,14 +506,60 @@
   <script type="text/babel">
     const { useState, useRef } = React;
     const API = "http://localhost:8000";
-    
+
     function App() {
       const [jd, setJd] = useState('');
       const [files, setFiles] = useState([]);
       const [loading, setLoading] = useState(false);
       const [results, setResults] = useState(null);
       const [dragActive, setDragActive] = useState(false);
+
+      // New State for Features
+      const [jdAnalysis, setJdAnalysis] = useState(null);
+      const [improvingJd, setImprovingJd] = useState(false);
+      const [selectedCandidates, setSelectedCandidates] = useState([]);
+      const [comparing, setComparing] = useState(false);
+      const [comparisonResult, setComparisonResult] = useState(null);
+      const [showJdModal, setShowJdModal] = useState(false);
+      const [showCompareModal, setShowCompareModal] = useState(false);
+
       const inputRef = useRef(null);
+
+      // Fetch initial state on mount
+      React.useEffect(() => {
+        const fetchState = async () => {
+          try {
+            // Get resumes
+            const resResumes = await fetch(`${API}/resumes`);
+            const dataResumes = await resResumes.json();
+            if (dataResumes.resumes) {
+              setFiles(dataResumes.resumes);
+            }
+
+            // Get JD status
+            const resJd = await fetch(`${API}/jd-status`);
+            const dataJd = await resJd.json();
+            if (dataJd.uploaded) {
+              // We don't get the original text back easily unless we specifically ask for it
+              // For now, let's just assume if it's uploaded, we can maybe leave it or just show the status
+              // But the textarea needs the text to be editable.
+              // The backend endpoint /jd-status doesn't return the text by default according to step 135 view
+              // Line 664 just returns text_length.
+              // Wait, logic in step 153 upload-jd-text sets app_state.jd_text
+              // Does /jd-status return text?
+              // Step 135: 
+              // "text_length": len(app_state.jd_text),
+              // "analysis": app_state.jd_analysis
+              // It does NOT return the full text. 
+              // So we can't restore the JD text box value. 
+              // That's okay, at least resumes will sync.
+            }
+          } catch (e) {
+            console.error("Failed to sync state:", e);
+          }
+        };
+        fetchState();
+      }, []);
 
       const uploadFile = async (fileList) => {
         const arr = Array.from(fileList);
@@ -541,26 +587,27 @@
 
       const analyze = async () => {
         if (!jd || files.length === 0) return;
-        
+
         setLoading(true);
         setResults(null);
-        
+        setSelectedCandidates([]);
+
         try {
           // Upload JD
-          await fetch(`${API}/upload-jd`, {
+          await fetch(`${API}/upload-jd-text`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: jd })
           });
-          
+
           // Analyze
           await fetch(`${API}/analyze`, { method: "POST" });
-          
+
           // Get results
-          const res = await fetch(`${API}/results`);
+          const res = await fetch(`${API}/results?use_ai=true`);
           const data = await res.json();
           setResults(data.results);
-          
+
           setTimeout(() => {
             document.getElementById("results")?.scrollIntoView({ behavior: "smooth" });
           }, 100);
@@ -571,11 +618,65 @@
         }
       };
 
+      const improveJd = async () => {
+        if (jd.length < 50) return alert("JD too short to analyze");
+        setImprovingJd(true);
+        try {
+          const res = await fetch(`${API}/improve-jd`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: jd })
+          });
+          const data = await res.json();
+          setJdAnalysis(data.analysis);
+          setShowJdModal(true);
+        } catch (e) {
+          alert("Improvement failed: " + e.message);
+        } finally {
+          setImprovingJd(false);
+        }
+      };
+
+      const toggleCandidate = (id) => {
+        setSelectedCandidates(prev => {
+          if (prev.includes(id)) return prev.filter(c => c !== id);
+          if (prev.length >= 2) {
+            alert("Select exactly 2 candidates to compare.");
+            return prev;
+          }
+          return [...prev, id];
+        });
+      };
+
+      const compareCandidates = async () => {
+        if (selectedCandidates.length !== 2) return;
+        setComparing(true);
+        try {
+          const res = await fetch(`${API}/compare`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ candidate_ids: selectedCandidates })
+          });
+          const data = await res.json();
+          if (data.success) {
+            setComparisonResult(data.comparison);
+            setShowCompareModal(true);
+          }
+        } catch (e) {
+          alert("Comparison failed: " + e.message);
+        } finally {
+          setComparing(false);
+        }
+      };
+
       const reset = async () => {
         await fetch(`${API}/reset`, { method: "POST" });
         setFiles([]);
         setResults(null);
         setJd('');
+        setJdAnalysis(null);
+        setComparisonResult(null);
+        setSelectedCandidates([]);
       };
 
       return (
@@ -586,8 +687,8 @@
                 <div className="logo">
                   <div className="logo-icon">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                      <circle cx="12" cy="8" r="4"/>
-                      <path d="M6 20c0-4 3-6 6-6s6 2 6 6"/>
+                      <circle cx="12" cy="8" r="4" />
+                      <path d="M6 20c0-4 3-6 6-6s6 2 6 6" />
                     </svg>
                   </div>
                   <h1>Resume<span>AI</span> Pro</h1>
@@ -613,7 +714,14 @@
                   <div className="step-num">1</div>
                   <h2>Job Description</h2>
                 </div>
-                {jd.length > 50 && <span style={{color: 'var(--success)'}}>✓</span>}
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                  {jd.length > 50 && <span style={{ color: 'var(--success)' }}>✓</span>}
+                  {jd.length > 50 && (
+                    <button className="btn btn-secondary" onClick={improveJd} disabled={improvingJd}>
+                      {improvingJd ? "Analyzing..." : "✨ Improve JD"}
+                    </button>
+                  )}
+                </div>
               </div>
               <textarea
                 className="textarea"
@@ -673,7 +781,7 @@
               >
                 {loading ? (
                   <>
-                    <div className="spinner" style={{width: 18, height: 18, borderWidth: 2}}></div>
+                    <div className="spinner" style={{ width: 18, height: 18, borderWidth: 2 }}></div>
                     Analyzing with AI...
                   </>
                 ) : (
@@ -696,7 +804,7 @@
                 </div>
 
                 {results.map((r, i) => (
-                  <div key={r.file_name} className={`result-card ${i === 0 ? 'top' : ''}`}>
+                  <div key={r.id || i} className={`result-card ${i === 0 ? 'top' : ''}`}>
                     <div className="result-inner">
                       <div className="result-rank">
                         {i === 0 ? '🏆' : <span className="rank-num">#{r.rank}</span>}
@@ -705,25 +813,27 @@
                         <div className="result-top">
                           <div>
                             <div className="result-name">
-                              {r.candidate_name}
-                              <span className={`fit-badge fit-${r.fit_level?.toLowerCase()}`}>
-                                {r.fit_level}
+                              <input
+                                type="checkbox"
+                                style={{ marginRight: 10, transform: "scale(1.2)" }}
+                                checked={selectedCandidates.includes(r.id)}
+                                onChange={() => toggleCandidate(r.id)}
+                              />
+                              {r.resume_name}
+                              <span className={`fit-badge fit-${r.fit?.toLowerCase()}`}>
+                                {r.fit}
                               </span>
                             </div>
-                            <div className="result-title">{r.current_title}</div>
+                            <div className="result-title">Rank # {r.rank}</div>
                           </div>
                           <div className="result-score">
                             <div className="score-value">{r.match_score}%</div>
                             <div className="score-label">Match</div>
                           </div>
                         </div>
-                        
+
                         <div className="result-summary">{r.summary}</div>
-                        
-                        <div className="result-recommendation">
-                          <strong>Recommendation:</strong> {r.recommendation}
-                        </div>
-                        
+
                         <div className="skills-row">
                           {r.matched_skills?.slice(0, 6).map(s => (
                             <span key={s} className="skill">{s}</span>
@@ -738,6 +848,121 @@
                 ))}
               </section>
             )}
+
+            {/* JD Analysis Modal */}
+            {showJdModal && jdAnalysis && (
+              <div style={{
+                position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+                background: 'rgba(0,0,0,0.8)', zIndex: 1000, display: 'flex',
+                alignItems: 'center', justifyContent: 'center'
+              }}>
+                <div style={{
+                  background: 'var(--surface)', padding: '30px', borderRadius: '16px',
+                  maxWidth: '700px', width: '90%', maxHeight: '85vh', overflowY: 'auto',
+                  border: '1px solid var(--border)'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+                    <h2>Starting JD Analysis</h2>
+                    <button onClick={() => setShowJdModal(false)} style={{ background: 'none', border: 'none', color: 'white', fontSize: '24px', cursor: 'pointer' }}>×</button>
+                  </div>
+
+                  {/* New Section: Strengths */}
+                  <div style={{ marginBottom: '20px' }}>
+                    <h3 style={{ color: 'var(--success)', marginBottom: '8px' }}>Strengths</h3>
+                    <ul style={{ marginLeft: '20px', color: 'var(--text-muted)' }}>
+                      {jdAnalysis.strengths?.map(s => <li key={s}>{s}</li>)}
+                    </ul>
+                  </div>
+
+                  {/* New Section: Weaknesses */}
+                  <div style={{ marginBottom: '20px' }}>
+                    <h3 style={{ color: 'var(--warning)', marginBottom: '8px' }}>Potential Improvements</h3>
+                    <ul style={{ marginLeft: '20px', color: 'var(--text-muted)' }}>
+                      {jdAnalysis.weaknesses?.map(w => <li key={w}>{w}</li>)}
+                    </ul>
+                  </div>
+
+                  {/* New Section: Suggestions */}
+                  <div style={{ marginBottom: '20px' }}>
+                    <h3 style={{ color: 'var(--primary)', marginBottom: '8px' }}>Suggestions</h3>
+                    <ul style={{ marginLeft: '20px', color: 'var(--text-muted)' }}>
+                      {jdAnalysis.suggestions?.map(s => <li key={s}>{s}</li>)}
+                    </ul>
+                  </div>
+
+                  <h3 style={{ marginBottom: '8px' }}>Improved Version</h3>
+                  <textarea
+                    className="textarea"
+                    style={{ minHeight: '200px' }}
+                    value={jdAnalysis.improved_version}
+                    readOnly
+                  />
+                  <button className="btn btn-primary" style={{ marginTop: '20px', width: '100%' }} onClick={() => {
+                    setJd(jdAnalysis.improved_version);
+                    setShowJdModal(false);
+                  }}>
+                    Use Improved Description
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Floating Compare Button */}
+            {selectedCandidates.length > 0 && (
+              <button
+                className="btn btn-primary position-fixed bottom-0 end-0 m-4 rounded-pill shadow-lg px-4 py-3"
+                style={{ zIndex: 1000 }}
+                onClick={compareCandidates}
+                disabled={selectedCandidates.length !== 2 || comparing}
+              >
+                {comparing ? (
+                  <>Comparing...</>
+                ) : (
+                  <>Compare ({selectedCandidates.length}/2)</>
+                )}
+              </button>
+            )}
+
+            {/* Comparison Modal */}
+            {showCompareModal && comparisonResult && (
+              <div style={{
+                position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+                background: 'rgba(0,0,0,0.8)', zIndex: 1100, display: 'flex',
+                alignItems: 'center', justifyContent: 'center'
+              }}>
+                <div style={{
+                  background: '#1e1e1e', padding: '30px', borderRadius: '12px',
+                  maxWidth: '900px', width: '90%', maxHeight: '90vh', overflowY: 'auto',
+                  border: '1px solid #333', boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                    <h2>Candidate Comparison</h2>
+                    <button onClick={() => setShowCompareModal(false)} style={{ background: 'none', border: 'none', color: '#fff', fontSize: '24px', cursor: 'pointer' }}>×</button>
+                  </div>
+
+                  <div className="row">
+                    {/* Candidate 1 */}
+                    <div className="col-md-6 border-end border-secondary p-3">
+                      <h4 className="text-info">{comparisonResult.unique_to_first.length > comparisonResult.unique_to_second.length ? "More Unique Skills" : ""}</h4>
+                      <p><strong>Common Skills:</strong> {comparisonResult.common_skills.join(", ") || "None"}</p>
+                      <p><strong>Unique Skills:</strong> {comparisonResult.unique_to_first.join(", ") || "None"}</p>
+                    </div>
+                    {/* Candidate 2 */}
+                    <div className="col-md-6 p-3">
+                      <h4 className="text-info">{comparisonResult.unique_to_second.length > comparisonResult.unique_to_first.length ? "More Unique Skills" : ""}</h4>
+                      <p><strong>Unique Skills:</strong> {comparisonResult.unique_to_second.join(", ") || "None"}</p>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 p-3 bg-secondary bg-opacity-10 rounded border border-info">
+                    <h5 className="text-info">AI Recommendation</h5>
+                    <p className="mb-0">{comparisonResult.recommendation}</p>
+                  </div>
+
+                </div>
+              </div>
+            )}
+
           </main>
 
           <footer className="footer">

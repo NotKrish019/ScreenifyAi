@@ -79,3 +79,8 @@ class HealthResponse(BaseModel):
     version: str
     nlp_ready: bool
     datasets_loaded: bool
+
+
+class CompareRequest(BaseModel):
+    """Model for candidate comparison request."""
+    candidate_ids: List[str] = Field(..., min_items=2, description="List of candidate IDs to compare")

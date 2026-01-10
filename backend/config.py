@@ -30,9 +30,9 @@ MAX_FILE_SIZE_MB = 10
 
 # Scoring thresholds
 SCORE_THRESHOLDS = {
-    "high": 85,      # >= 85% is High Fit
-    "medium": 70,    # 70-84% is Medium Fit
-    "low": 0         # < 70% is Low Fit
+    "high": 75,      # >= 75% is High Fit
+    "medium": 50,    # 50-74% is Medium Fit
+    "low": 0         # < 50% is Low Fit
 }
 
 # TF-IDF Configuration

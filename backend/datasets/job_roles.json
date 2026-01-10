@@ -251,1002 +251,1004 @@
         "tracked"
       ],
       "weight": 0.9
+    },
+    "experience_levels": {
+      "entry": {
+        "keywords": [
+          "fresher",
+          "graduate",
+          "intern",
+          "junior",
+          "entry level",
+          "0-2 years"
+        ],
+        "years_range": [
+          0,
+          2
+        ]
+      },
+      "mid": {
+        "keywords": [
+          "mid-level",
+          "intermediate",
+          "2-5 years",
+          "3+ years"
+        ],
+        "years_range": [
+          2,
+          5
+        ]
+      },
+      "senior": {
+        "keywords": [
+          "senior",
+          "lead",
+          "5+ years",
+          "experienced",
+          "principal"
+        ],
+        "years_range": [
+          5,
+          10
+        ]
+      },
+      "expert": {
+        "keywords": [
+          "architect",
+          "staff",
+          "principal",
+          "distinguished",
+          "10+ years",
+          "director"
+        ],
+        "years_range": [
+          10,
+          20
+        ]
+      }
+    },
+    "education_keywords": {
+      "high": [
+        "phd",
+        "doctorate",
+        "masters",
+        "m.tech",
+        "m.s.",
+        "mba"
+      ],
+      "medium": [
+        "bachelors",
+        "b.tech",
+        "b.e.",
+        "b.s.",
+        "bca",
+        "bsc"
+      ],
+      "entry": [
+        "diploma",
+        "certification",
+        "bootcamp",
+        "course"
+      ]
+    },
+    "additional_job_roles": {
+      "security_engineer": {
+        "title": "Security Engineer",
+        "aliases": [
+          "application security engineer",
+          "infosec engineer"
+        ],
+        "core_skills": [
+          "application security",
+          "penetration testing",
+          "secure coding",
+          "threat modeling",
+          "cryptography"
+        ],
+        "description": "Builds and enforces security controls to protect applications and systems",
+        "experience_keywords": [
+          "secured",
+          "tested",
+          "analyzed",
+          "hardened",
+          "implemented"
+        ],
+        "weight": 1.1
+      },
+      "mle_ops_engineer": {
+        "title": "MLOps Engineer",
+        "aliases": [
+          "ml platform engineer",
+          "machine learning ops engineer"
+        ],
+        "core_skills": [
+          "mlops",
+          "model deployment",
+          "docker",
+          "kubernetes",
+          "ci/cd",
+          "monitoring"
+        ],
+        "description": "Manages deployment, monitoring, and lifecycle of machine learning models",
+        "experience_keywords": [
+          "deployed",
+          "automated",
+          "monitored",
+          "scaled",
+          "maintained"
+        ],
+        "weight": 1.2
+      },
+      "growth_engineer": {
+        "title": "Growth Engineer",
+        "aliases": [
+          "growth hacker",
+          "product growth engineer"
+        ],
+        "core_skills": [
+          "experimentation",
+          "a/b testing",
+          "analytics",
+          "sql",
+          "frontend",
+          "product metrics"
+        ],
+        "description": "Drives product growth through experimentation and data-driven optimization",
+        "experience_keywords": [
+          "experimented",
+          "optimized",
+          "analyzed",
+          "iterated",
+          "improved"
+        ],
+        "weight": 1.0
+      },
+      "release_engineer": {
+        "title": "Release Engineer",
+        "aliases": [
+          "build engineer",
+          "release manager"
+        ],
+        "core_skills": [
+          "ci/cd",
+          "build systems",
+          "versioning",
+          "automation",
+          "git"
+        ],
+        "description": "Manages software releases and ensures stable deployment pipelines",
+        "experience_keywords": [
+          "released",
+          "coordinated",
+          "automated",
+          "packaged",
+          "deployed"
+        ],
+        "weight": 0.95
+      },
+      "search_engineer": {
+        "title": "Search Engineer",
+        "aliases": [
+          "information retrieval engineer",
+          "search relevance engineer"
+        ],
+        "core_skills": [
+          "elasticsearch",
+          "ranking algorithms",
+          "information retrieval",
+          "nlp",
+          "python"
+        ],
+        "description": "Builds and optimizes search and ranking systems",
+        "experience_keywords": [
+          "indexed",
+          "ranked",
+          "optimized",
+          "tuned",
+          "evaluated"
+        ],
+        "weight": 1.1
+      },
+      "recommendation_engineer": {
+        "title": "Recommendation Engineer",
+        "aliases": [
+          "recsys engineer",
+          "personalization engineer"
+        ],
+        "core_skills": [
+          "recommendation systems",
+          "machine learning",
+          "collaborative filtering",
+          "python",
+          "data analysis"
+        ],
+        "description": "Develops personalized recommendation and ranking systems",
+        "experience_keywords": [
+          "modeled",
+          "recommended",
+          "optimized",
+          "evaluated",
+          "trained"
+        ],
+        "weight": 1.2
+      },
+      "performance_engineer": {
+        "title": "Performance Engineer",
+        "aliases": [
+          "performance tester",
+          "load testing engineer"
+        ],
+        "core_skills": [
+          "performance testing",
+          "load testing",
+          "profiling",
+          "optimization",
+          "jmeter"
+        ],
+        "description": "Analyzes and improves system performance and scalability",
+        "experience_keywords": [
+          "tested",
+          "profiled",
+          "optimized",
+          "analyzed",
+          "tuned"
+        ],
+        "weight": 0.95
+      },
+      "api_engineer": {
+        "title": "API Engineer",
+        "aliases": [
+          "integration engineer",
+          "api developer"
+        ],
+        "core_skills": [
+          "rest api",
+          "graphql",
+          "api design",
+          "authentication",
+          "documentation"
+        ],
+        "description": "Designs and builds scalable and secure APIs",
+        "experience_keywords": [
+          "designed",
+          "implemented",
+          "integrated",
+          "secured",
+          "documented"
+        ],
+        "weight": 1.0
+      },
+      "observability_engineer": {
+        "title": "Observability Engineer",
+        "aliases": [
+          "monitoring engineer",
+          "telemetry engineer"
+        ],
+        "core_skills": [
+          "logging",
+          "metrics",
+          "tracing",
+          "prometheus",
+          "grafana",
+          "alerting"
+        ],
+        "description": "Builds observability systems for monitoring and diagnosing production issues",
+        "experience_keywords": [
+          "instrumented",
+          "monitored",
+          "alerted",
+          "analyzed",
+          "improved"
+        ],
+        "weight": 1.05
+      },
+      "developer_advocate": {
+        "title": "Developer Advocate",
+        "aliases": [
+          "developer evangelist",
+          "devrel engineer"
+        ],
+        "core_skills": [
+          "communication",
+          "public speaking",
+          "technical writing",
+          "community building",
+          "apis"
+        ],
+        "description": "Bridges developers and products through education and advocacy",
+        "experience_keywords": [
+          "advocated",
+          "educated",
+          "presented",
+          "documented",
+          "engaged"
+        ],
+        "weight": 0.85
+      },
+      "mobile_app_developer": {
+        "title": "Mobile App Developer",
+        "aliases": [
+          "android developer",
+          "ios developer",
+          "flutter developer",
+          "react native developer"
+        ],
+        "core_skills": [
+          "java",
+          "kotlin",
+          "swift",
+          "flutter",
+          "react native",
+          "mobile ui",
+          "api integration",
+          "debugging"
+        ],
+        "description": "Designs and develops mobile applications for Android and iOS platforms",
+        "experience_keywords": [
+          "developed",
+          "implemented",
+          "tested",
+          "published",
+          "optimized",
+          "maintained"
+        ],
+        "weight": 1.0
+      },
+      "qa_engineer": {
+        "title": "QA Engineer",
+        "aliases": [
+          "software tester",
+          "quality analyst",
+          "test engineer"
+        ],
+        "core_skills": [
+          "manual testing",
+          "automation testing",
+          "selenium",
+          "test cases",
+          "bug tracking",
+          "regression testing"
+        ],
+        "description": "Ensures software quality through systematic testing and defect tracking",
+        "experience_keywords": [
+          "tested",
+          "validated",
+          "identified",
+          "reported",
+          "verified",
+          "automated"
+        ],
+        "weight": 0.95
+      },
+      "cloud_architect": {
+        "title": "Cloud Architect",
+        "aliases": [
+          "cloud solution architect",
+          "aws architect",
+          "azure architect"
+        ],
+        "core_skills": [
+          "aws",
+          "azure",
+          "gcp",
+          "cloud security",
+          "system design",
+          "terraform",
+          "kubernetes"
+        ],
+        "description": "Designs scalable and secure cloud infrastructure solutions",
+        "experience_keywords": [
+          "architected",
+          "designed",
+          "migrated",
+          "secured",
+          "optimized",
+          "implemented"
+        ],
+        "weight": 1.2
+      },
+      "cyber_security_engineer": {
+        "title": "Cyber Security Engineer",
+        "aliases": [
+          "security analyst",
+          "information security engineer",
+          "soc analyst"
+        ],
+        "core_skills": [
+          "network security",
+          "penetration testing",
+          "siem",
+          "incident response",
+          "cryptography",
+          "risk assessment"
+        ],
+        "description": "Protects systems and networks from cyber threats and vulnerabilities",
+        "experience_keywords": [
+          "secured",
+          "monitored",
+          "analyzed",
+          "mitigated",
+          "investigated",
+          "implemented"
+        ],
+        "weight": 1.15
+      },
+      "business_analyst": {
+        "title": "Business Analyst",
+        "aliases": [
+          "ba",
+          "functional analyst",
+          "business consultant"
+        ],
+        "core_skills": [
+          "requirements gathering",
+          "data analysis",
+          "stakeholder communication",
+          "documentation",
+          "process modeling"
+        ],
+        "description": "Analyzes business needs and translates them into technical requirements",
+        "experience_keywords": [
+          "analyzed",
+          "documented",
+          "elicited",
+          "communicated",
+          "validated"
+        ],
+        "weight": 0.9
+      },
+      "product_manager": {
+        "title": "Product Manager",
+        "aliases": [
+          "product owner",
+          "product lead"
+        ],
+        "core_skills": [
+          "product strategy",
+          "roadmapping",
+          "user research",
+          "agile",
+          "stakeholder management"
+        ],
+        "description": "Defines product vision and manages product lifecycle from ideation to launch",
+        "experience_keywords": [
+          "defined",
+          "prioritized",
+          "launched",
+          "validated",
+          "collaborated"
+        ],
+        "weight": 1.1
+      },
+      "ui_ux_designer": {
+        "title": "UI/UX Designer",
+        "aliases": [
+          "product designer",
+          "ux designer",
+          "ui designer"
+        ],
+        "core_skills": [
+          "user research",
+          "wireframing",
+          "prototyping",
+          "figma",
+          "adobe xd",
+          "usability testing"
+        ],
+        "description": "Designs intuitive and engaging user experiences for digital products",
+        "experience_keywords": [
+          "designed",
+          "prototyped",
+          "researched",
+          "tested",
+          "iterated"
+        ],
+        "weight": 1.0
+      },
+      "database_administrator": {
+        "title": "Database Administrator",
+        "aliases": [
+          "dba",
+          "database engineer"
+        ],
+        "core_skills": [
+          "sql",
+          "database tuning",
+          "backup and recovery",
+          "performance optimization",
+          "data security"
+        ],
+        "description": "Manages, maintains, and optimizes databases for performance and reliability",
+        "experience_keywords": [
+          "maintained",
+          "optimized",
+          "secured",
+          "monitored",
+          "backed up"
+        ],
+        "weight": 1.0
+      },
+      "site_reliability_engineer": {
+        "title": "Site Reliability Engineer",
+        "aliases": [
+          "sre",
+          "reliability engineer",
+          "platform engineer"
+        ],
+        "core_skills": [
+          "linux",
+          "distributed systems",
+          "monitoring",
+          "incident management",
+          "automation",
+          "cloud",
+          "scripting"
+        ],
+        "description": "Ensures reliability, scalability, and performance of production systems",
+        "experience_keywords": [
+          "monitored",
+          "automated",
+          "resolved",
+          "scaled",
+          "optimized",
+          "responded"
+        ],
+        "weight": 1.1
+      },
+      "data_engineer": {
+        "title": "Data Engineer",
+        "aliases": [
+          "big data engineer",
+          "etl engineer",
+          "data platform engineer"
+        ],
+        "core_skills": [
+          "python",
+          "sql",
+          "spark",
+          "hadoop",
+          "etl",
+          "data pipelines",
+          "airflow",
+          "cloud"
+        ],
+        "description": "Builds and maintains scalable data pipelines and data platforms",
+        "experience_keywords": [
+          "built",
+          "processed",
+          "ingested",
+          "transformed",
+          "optimized",
+          "maintained"
+        ],
+        "weight": 1.1
+      },
+      "machine_learning_engineer": {
+        "title": "Machine Learning Engineer",
+        "aliases": [
+          "ml engineer",
+          "applied ml engineer"
+        ],
+        "core_skills": [
+          "machine learning",
+          "python",
+          "tensorflow",
+          "pytorch",
+          "model deployment",
+          "feature engineering"
+        ],
+        "description": "Develops, deploys, and scales machine learning models in production",
+        "experience_keywords": [
+          "trained",
+          "deployed",
+          "evaluated",
+          "optimized",
+          "fine-tuned"
+        ],
+        "weight": 1.2
+      },
+      "nlp_engineer": {
+        "title": "NLP Engineer",
+        "aliases": [
+          "language ai engineer",
+          "computational linguist"
+        ],
+        "core_skills": [
+          "nlp",
+          "transformers",
+          "python",
+          "text processing",
+          "bert",
+          "llms"
+        ],
+        "description": "Builds systems that understand and generate human language",
+        "experience_keywords": [
+          "processed",
+          "trained",
+          "tokenized",
+          "fine-tuned",
+          "evaluated"
+        ],
+        "weight": 1.2
+      },
+      "computer_vision_engineer": {
+        "title": "Computer Vision Engineer",
+        "aliases": [
+          "cv engineer",
+          "vision engineer"
+        ],
+        "core_skills": [
+          "computer vision",
+          "opencv",
+          "deep learning",
+          "cnn",
+          "image processing",
+          "python"
+        ],
+        "description": "Develops vision-based systems for image and video analysis",
+        "experience_keywords": [
+          "trained",
+          "detected",
+          "classified",
+          "optimized",
+          "implemented"
+        ],
+        "weight": 1.2
+      },
+      "game_developer": {
+        "title": "Game Developer",
+        "aliases": [
+          "unity developer",
+          "unreal developer",
+          "game programmer"
+        ],
+        "core_skills": [
+          "c++",
+          "c#",
+          "unity",
+          "unreal engine",
+          "game physics",
+          "debugging"
+        ],
+        "description": "Designs and develops interactive games and game systems",
+        "experience_keywords": [
+          "developed",
+          "implemented",
+          "optimized",
+          "tested",
+          "integrated"
+        ],
+        "weight": 1.0
+      },
+      "blockchain_developer": {
+        "title": "Blockchain Developer",
+        "aliases": [
+          "web3 developer",
+          "smart contract developer"
+        ],
+        "core_skills": [
+          "solidity",
+          "ethereum",
+          "smart contracts",
+          "web3",
+          "cryptography"
+        ],
+        "description": "Builds decentralized applications and blockchain-based systems",
+        "experience_keywords": [
+          "developed",
+          "deployed",
+          "audited",
+          "implemented",
+          "tested"
+        ],
+        "weight": 1.15
+      },
+      "ar_vr_developer": {
+        "title": "AR/VR Developer",
+        "aliases": [
+          "xr developer",
+          "virtual reality developer",
+          "augmented reality developer"
+        ],
+        "core_skills": [
+          "unity",
+          "c#",
+          "arcore",
+          "arkit",
+          "3d modeling",
+          "spatial computing"
+        ],
+        "description": "Creates immersive augmented and virtual reality experiences",
+        "experience_keywords": [
+          "designed",
+          "developed",
+          "integrated",
+          "tested",
+          "optimized"
+        ],
+        "weight": 1.1
+      },
+      "technical_writer": {
+        "title": "Technical Writer",
+        "aliases": [
+          "documentation specialist",
+          "content engineer"
+        ],
+        "core_skills": [
+          "technical documentation",
+          "writing",
+          "api docs",
+          "markdown",
+          "communication"
+        ],
+        "description": "Creates clear and accurate technical documentation for products and systems",
+        "experience_keywords": [
+          "documented",
+          "authored",
+          "edited",
+          "reviewed",
+          "published"
+        ],
+        "weight": 0.85
+      },
+      "it_support_engineer": {
+        "title": "IT Support Engineer",
+        "aliases": [
+          "technical support",
+          "helpdesk engineer"
+        ],
+        "core_skills": [
+          "troubleshooting",
+          "hardware",
+          "networking",
+          "windows",
+          "linux",
+          "customer support"
+        ],
+        "description": "Provides technical assistance and support for systems and users",
+        "experience_keywords": [
+          "resolved",
+          "assisted",
+          "diagnosed",
+          "configured",
+          "supported"
+        ],
+        "weight": 0.8
+      },
+      "data_analyst": {
+        "title": "Data Analyst",
+        "aliases": [
+          "business data analyst",
+          "analytics analyst"
+        ],
+        "core_skills": [
+          "sql",
+          "excel",
+          "data analysis",
+          "data visualization",
+          "python",
+          "statistics"
+        ],
+        "description": "Analyzes datasets to generate insights and support business decisions",
+        "experience_keywords": [
+          "analyzed",
+          "queried",
+          "visualized",
+          "reported",
+          "interpreted"
+        ],
+        "weight": 1.0
+      },
+      "frontend_engineer": {
+        "title": "Frontend Engineer",
+        "aliases": [
+          "frontend developer",
+          "ui engineer"
+        ],
+        "core_skills": [
+          "javascript",
+          "typescript",
+          "react",
+          "html",
+          "css",
+          "performance optimization"
+        ],
+        "description": "Builds performant and accessible user interfaces for web applications",
+        "experience_keywords": [
+          "implemented",
+          "styled",
+          "optimized",
+          "integrated",
+          "tested"
+        ],
+        "weight": 1.0
+      },
+      "backend_engineer": {
+        "title": "Backend Engineer",
+        "aliases": [
+          "server-side engineer",
+          "api engineer"
+        ],
+        "core_skills": [
+          "python",
+          "java",
+          "node.js",
+          "databases",
+          "rest api",
+          "microservices"
+        ],
+        "description": "Develops server-side logic and scalable backend systems",
+        "experience_keywords": [
+          "designed",
+          "built",
+          "implemented",
+          "scaled",
+          "maintained"
+        ],
+        "weight": 1.0
+      },
+      "full_stack_engineer": {
+        "title": "Full Stack Engineer",
+        "aliases": [
+          "full-stack developer",
+          "web engineer"
+        ],
+        "core_skills": [
+          "javascript",
+          "react",
+          "node.js",
+          "python",
+          "databases",
+          "api integration"
+        ],
+        "description": "Works across frontend and backend to deliver end-to-end features",
+        "experience_keywords": [
+          "developed",
+          "integrated",
+          "deployed",
+          "maintained",
+          "optimized"
+        ],
+        "weight": 1.1
+      },
+      "devops_specialist": {
+        "title": "DevOps Specialist",
+        "aliases": [
+          "devops engineer",
+          "infrastructure specialist"
+        ],
+        "core_skills": [
+          "docker",
+          "kubernetes",
+          "ci/cd",
+          "cloud",
+          "linux",
+          "automation"
+        ],
+        "description": "Automates infrastructure and deployment pipelines to improve reliability",
+        "experience_keywords": [
+          "automated",
+          "deployed",
+          "configured",
+          "monitored",
+          "optimized"
+        ],
+        "weight": 1.0
+      },
+      "cloud_security_engineer": {
+        "title": "Cloud Security Engineer",
+        "aliases": [
+          "cloud security analyst",
+          "security cloud engineer"
+        ],
+        "core_skills": [
+          "cloud security",
+          "iam",
+          "network security",
+          "risk assessment",
+          "compliance"
+        ],
+        "description": "Secures cloud environments and enforces security best practices",
+        "experience_keywords": [
+          "secured",
+          "assessed",
+          "monitored",
+          "implemented",
+          "reviewed"
+        ],
+        "weight": 1.15
+      },
+      "data_quality_engineer": {
+        "title": "Data Quality Engineer",
+        "aliases": [
+          "data validation engineer",
+          "dq engineer"
+        ],
+        "core_skills": [
+          "data validation",
+          "sql",
+          "python",
+          "etl",
+          "testing"
+        ],
+        "description": "Ensures accuracy, consistency, and reliability of data pipelines",
+        "experience_keywords": [
+          "validated",
+          "tested",
+          "monitored",
+          "identified",
+          "resolved"
+        ],
+        "weight": 0.95
+      },
+      "product_analyst": {
+        "title": "Product Analyst",
+        "aliases": [
+          "product data analyst",
+          "growth analyst"
+        ],
+        "core_skills": [
+          "product analytics",
+          "sql",
+          "experimentation",
+          "metrics",
+          "data visualization"
+        ],
+        "description": "Analyzes product usage and experiments to guide product decisions",
+        "experience_keywords": [
+          "analyzed",
+          "experimented",
+          "measured",
+          "reported",
+          "optimized"
+        ],
+        "weight": 1.0
+      },
+      "release_manager": {
+        "title": "Release Manager",
+        "aliases": [
+          "software release manager",
+          "delivery manager"
+        ],
+        "core_skills": [
+          "release planning",
+          "ci/cd",
+          "coordination",
+          "risk management",
+          "version control"
+        ],
+        "description": "Plans and coordinates software releases across teams",
+        "experience_keywords": [
+          "planned",
+          "coordinated",
+          "released",
+          "tracked",
+          "mitigated"
+        ],
+        "weight": 0.95
+      },
+      "engineering_manager": {
+        "title": "Engineering Manager",
+        "aliases": [
+          "em",
+          "tech manager"
+        ],
+        "core_skills": [
+          "team leadership",
+          "system design",
+          "project management",
+          "mentoring"
+        ],
+        "description": "Leads engineering teams and drives delivery of technical initiatives",
+        "experience_keywords": [
+          "led",
+          "mentored",
+          "planned",
+          "reviewed",
+          "delivered"
+        ],
+        "weight": 1.1
+      }
     }
-  },
-  "experience_levels": {
-    "entry": {
-      "keywords": [
-        "fresher",
-        "graduate",
-        "intern",
-        "junior",
-        "entry level",
-        "0-2 years"
-      ],
-      "years_range": [
-        0,
-        2
-      ]
-    },
-    "mid": {
-      "keywords": [
-        "mid-level",
-        "intermediate",
-        "2-5 years",
-        "3+ years"
-      ],
-      "years_range": [
-        2,
-        5
-      ]
-    },
-    "senior": {
-      "keywords": [
-        "senior",
-        "lead",
-        "5+ years",
-        "experienced",
-        "principal"
-      ],
-      "years_range": [
-        5,
-        10
-      ]
-    },
-    "expert": {
-      "keywords": [
-        "architect",
-        "staff",
-        "principal",
-        "distinguished",
-        "10+ years",
-        "director"
-      ],
-      "years_range": [
-        10,
-        20
-      ]
-    }
-  },
-  "education_keywords": {
-    "high": [
-      "phd",
-      "doctorate",
-      "masters",
-      "m.tech",
-      "m.s.",
-      "mba"
-    ],
-    "medium": [
-      "bachelors",
-      "b.tech",
-      "b.e.",
-      "b.s.",
-      "bca",
-      "bsc"
-    ],
-    "entry": [
-      "diploma",
-      "certification",
-      "bootcamp",
-      "course"
-    ]
   }
-}
-"security_engineer": {
-  "title": "Security Engineer",
-  "aliases": [
-    "application security engineer",
-    "infosec engineer"
-  ],
-  "core_skills": [
-    "application security",
-    "penetration testing",
-    "secure coding",
-    "threat modeling",
-    "cryptography"
-  ],
-  "description": "Builds and enforces security controls to protect applications and systems",
-  "experience_keywords": [
-    "secured",
-    "tested",
-    "analyzed",
-    "hardened",
-    "implemented"
-  ],
-  "weight": 1.1
-},
-"mle_ops_engineer": {
-  "title": "MLOps Engineer",
-  "aliases": [
-    "ml platform engineer",
-    "machine learning ops engineer"
-  ],
-  "core_skills": [
-    "mlops",
-    "model deployment",
-    "docker",
-    "kubernetes",
-    "ci/cd",
-    "monitoring"
-  ],
-  "description": "Manages deployment, monitoring, and lifecycle of machine learning models",
-  "experience_keywords": [
-    "deployed",
-    "automated",
-    "monitored",
-    "scaled",
-    "maintained"
-  ],
-  "weight": 1.2
-},
-"growth_engineer": {
-  "title": "Growth Engineer",
-  "aliases": [
-    "growth hacker",
-    "product growth engineer"
-  ],
-  "core_skills": [
-    "experimentation",
-    "a/b testing",
-    "analytics",
-    "sql",
-    "frontend",
-    "product metrics"
-  ],
-  "description": "Drives product growth through experimentation and data-driven optimization",
-  "experience_keywords": [
-    "experimented",
-    "optimized",
-    "analyzed",
-    "iterated",
-    "improved"
-  ],
-  "weight": 1.0
-},
-"release_engineer": {
-  "title": "Release Engineer",
-  "aliases": [
-    "build engineer",
-    "release manager"
-  ],
-  "core_skills": [
-    "ci/cd",
-    "build systems",
-    "versioning",
-    "automation",
-    "git"
-  ],
-  "description": "Manages software releases and ensures stable deployment pipelines",
-  "experience_keywords": [
-    "released",
-    "coordinated",
-    "automated",
-    "packaged",
-    "deployed"
-  ],
-  "weight": 0.95
-},
-"search_engineer": {
-  "title": "Search Engineer",
-  "aliases": [
-    "information retrieval engineer",
-    "search relevance engineer"
-  ],
-  "core_skills": [
-    "elasticsearch",
-    "ranking algorithms",
-    "information retrieval",
-    "nlp",
-    "python"
-  ],
-  "description": "Builds and optimizes search and ranking systems",
-  "experience_keywords": [
-    "indexed",
-    "ranked",
-    "optimized",
-    "tuned",
-    "evaluated"
-  ],
-  "weight": 1.1
-},
-"recommendation_engineer": {
-  "title": "Recommendation Engineer",
-  "aliases": [
-    "recsys engineer",
-    "personalization engineer"
-  ],
-  "core_skills": [
-    "recommendation systems",
-    "machine learning",
-    "collaborative filtering",
-    "python",
-    "data analysis"
-  ],
-  "description": "Develops personalized recommendation and ranking systems",
-  "experience_keywords": [
-    "modeled",
-    "recommended",
-    "optimized",
-    "evaluated",
-    "trained"
-  ],
-  "weight": 1.2
-},
-"performance_engineer": {
-  "title": "Performance Engineer",
-  "aliases": [
-    "performance tester",
-    "load testing engineer"
-  ],
-  "core_skills": [
-    "performance testing",
-    "load testing",
-    "profiling",
-    "optimization",
-    "jmeter"
-  ],
-  "description": "Analyzes and improves system performance and scalability",
-  "experience_keywords": [
-    "tested",
-    "profiled",
-    "optimized",
-    "analyzed",
-    "tuned"
-  ],
-  "weight": 0.95
-},
-"api_engineer": {
-  "title": "API Engineer",
-  "aliases": [
-    "integration engineer",
-    "api developer"
-  ],
-  "core_skills": [
-    "rest api",
-    "graphql",
-    "api design",
-    "authentication",
-    "documentation"
-  ],
-  "description": "Designs and builds scalable and secure APIs",
-  "experience_keywords": [
-    "designed",
-    "implemented",
-    "integrated",
-    "secured",
-    "documented"
-  ],
-  "weight": 1.0
-},
-"observability_engineer": {
-  "title": "Observability Engineer",
-  "aliases": [
-    "monitoring engineer",
-    "telemetry engineer"
-  ],
-  "core_skills": [
-    "logging",
-    "metrics",
-    "tracing",
-    "prometheus",
-    "grafana",
-    "alerting"
-  ],
-  "description": "Builds observability systems for monitoring and diagnosing production issues",
-  "experience_keywords": [
-    "instrumented",
-    "monitored",
-    "alerted",
-    "analyzed",
-    "improved"
-  ],
-  "weight": 1.05
-},
-"developer_advocate": {
-  "title": "Developer Advocate",
-  "aliases": [
-    "developer evangelist",
-    "devrel engineer"
-  ],
-  "core_skills": [
-    "communication",
-    "public speaking",
-    "technical writing",
-    "community building",
-    "apis"
-  ],
-  "description": "Bridges developers and products through education and advocacy",
-  "experience_keywords": [
-    "advocated",
-    "educated",
-    "presented",
-    "documented",
-    "engaged"
-  ],
-  "weight": 0.85
-}
-"mobile_app_developer": {
-  "title": "Mobile App Developer",
-  "aliases": [
-    "android developer",
-    "ios developer",
-    "flutter developer",
-    "react native developer"
-  ],
-  "core_skills": [
-    "java",
-    "kotlin",
-    "swift",
-    "flutter",
-    "react native",
-    "mobile ui",
-    "api integration",
-    "debugging"
-  ],
-  "description": "Designs and develops mobile applications for Android and iOS platforms",
-  "experience_keywords": [
-    "developed",
-    "implemented",
-    "tested",
-    "published",
-    "optimized",
-    "maintained"
-  ],
-  "weight": 1.0
-},
-"qa_engineer": {
-  "title": "QA Engineer",
-  "aliases": [
-    "software tester",
-    "quality analyst",
-    "test engineer"
-  ],
-  "core_skills": [
-    "manual testing",
-    "automation testing",
-    "selenium",
-    "test cases",
-    "bug tracking",
-    "regression testing"
-  ],
-  "description": "Ensures software quality through systematic testing and defect tracking",
-  "experience_keywords": [
-    "tested",
-    "validated",
-    "identified",
-    "reported",
-    "verified",
-    "automated"
-  ],
-  "weight": 0.95
-},
-"cloud_architect": {
-  "title": "Cloud Architect",
-  "aliases": [
-    "cloud solution architect",
-    "aws architect",
-    "azure architect"
-  ],
-  "core_skills": [
-    "aws",
-    "azure",
-    "gcp",
-    "cloud security",
-    "system design",
-    "terraform",
-    "kubernetes"
-  ],
-  "description": "Designs scalable and secure cloud infrastructure solutions",
-  "experience_keywords": [
-    "architected",
-    "designed",
-    "migrated",
-    "secured",
-    "optimized",
-    "implemented"
-  ],
-  "weight": 1.2
-},
-"cyber_security_engineer": {
-  "title": "Cyber Security Engineer",
-  "aliases": [
-    "security analyst",
-    "information security engineer",
-    "soc analyst"
-  ],
-  "core_skills": [
-    "network security",
-    "penetration testing",
-    "siem",
-    "incident response",
-    "cryptography",
-    "risk assessment"
-  ],
-  "description": "Protects systems and networks from cyber threats and vulnerabilities",
-  "experience_keywords": [
-    "secured",
-    "monitored",
-    "analyzed",
-    "mitigated",
-    "investigated",
-    "implemented"
-  ],
-  "weight": 1.15
-},
-"business_analyst": {
-  "title": "Business Analyst",
-  "aliases": [
-    "ba",
-    "functional analyst",
-    "business consultant"
-  ],
-  "core_skills": [
-    "requirements gathering",
-    "data analysis",
-    "stakeholder communication",
-    "documentation",
-    "process modeling"
-  ],
-  "description": "Analyzes business needs and translates them into technical requirements",
-  "experience_keywords": [
-    "analyzed",
-    "documented",
-    "elicited",
-    "communicated",
-    "validated"
-  ],
-  "weight": 0.9
-},
-"product_manager": {
-  "title": "Product Manager",
-  "aliases": [
-    "product owner",
-    "product lead"
-  ],
-  "core_skills": [
-    "product strategy",
-    "roadmapping",
-    "user research",
-    "agile",
-    "stakeholder management"
-  ],
-  "description": "Defines product vision and manages product lifecycle from ideation to launch",
-  "experience_keywords": [
-    "defined",
-    "prioritized",
-    "launched",
-    "validated",
-    "collaborated"
-  ],
-  "weight": 1.1
-},
-"ui_ux_designer": {
-  "title": "UI/UX Designer",
-  "aliases": [
-    "product designer",
-    "ux designer",
-    "ui designer"
-  ],
-  "core_skills": [
-    "user research",
-    "wireframing",
-    "prototyping",
-    "figma",
-    "adobe xd",
-    "usability testing"
-  ],
-  "description": "Designs intuitive and engaging user experiences for digital products",
-  "experience_keywords": [
-    "designed",
-    "prototyped",
-    "researched",
-    "tested",
-    "iterated"
-  ],
-  "weight": 1.0
-},
-"database_administrator": {
-  "title": "Database Administrator",
-  "aliases": [
-    "dba",
-    "database engineer"
-  ],
-  "core_skills": [
-    "sql",
-    "database tuning",
-    "backup and recovery",
-    "performance optimization",
-    "data security"
-  ],
-  "description": "Manages, maintains, and optimizes databases for performance and reliability",
-  "experience_keywords": [
-    "maintained",
-    "optimized",
-    "secured",
-    "monitored",
-    "backed up"
-  ],
-  "weight": 1.0
-},
-"site_reliability_engineer": {
-  "title": "Site Reliability Engineer",
-  "aliases": [
-    "sre",
-    "reliability engineer",
-    "platform engineer"
-  ],
-  "core_skills": [
-    "linux",
-    "distributed systems",
-    "monitoring",
-    "incident management",
-    "automation",
-    "cloud",
-    "scripting"
-  ],
-  "description": "Ensures reliability, scalability, and performance of production systems",
-  "experience_keywords": [
-    "monitored",
-    "automated",
-    "resolved",
-    "scaled",
-    "optimized",
-    "responded"
-  ],
-  "weight": 1.1
-},
-"data_engineer": {
-  "title": "Data Engineer",
-  "aliases": [
-    "big data engineer",
-    "etl engineer",
-    "data platform engineer"
-  ],
-  "core_skills": [
-    "python",
-    "sql",
-    "spark",
-    "hadoop",
-    "etl",
-    "data pipelines",
-    "airflow",
-    "cloud"
-  ],
-  "description": "Builds and maintains scalable data pipelines and data platforms",
-  "experience_keywords": [
-    "built",
-    "processed",
-    "ingested",
-    "transformed",
-    "optimized",
-    "maintained"
-  ],
-  "weight": 1.1
-},
-"machine_learning_engineer": {
-  "title": "Machine Learning Engineer",
-  "aliases": [
-    "ml engineer",
-    "applied ml engineer"
-  ],
-  "core_skills": [
-    "machine learning",
-    "python",
-    "tensorflow",
-    "pytorch",
-    "model deployment",
-    "feature engineering"
-  ],
-  "description": "Develops, deploys, and scales machine learning models in production",
-  "experience_keywords": [
-    "trained",
-    "deployed",
-    "evaluated",
-    "optimized",
-    "fine-tuned"
-  ],
-  "weight": 1.2
-},
-"nlp_engineer": {
-  "title": "NLP Engineer",
-  "aliases": [
-    "language ai engineer",
-    "computational linguist"
-  ],
-  "core_skills": [
-    "nlp",
-    "transformers",
-    "python",
-    "text processing",
-    "bert",
-    "llms"
-  ],
-  "description": "Builds systems that understand and generate human language",
-  "experience_keywords": [
-    "processed",
-    "trained",
-    "tokenized",
-    "fine-tuned",
-    "evaluated"
-  ],
-  "weight": 1.2
-},
-"computer_vision_engineer": {
-  "title": "Computer Vision Engineer",
-  "aliases": [
-    "cv engineer",
-    "vision engineer"
-  ],
-  "core_skills": [
-    "computer vision",
-    "opencv",
-    "deep learning",
-    "cnn",
-    "image processing",
-    "python"
-  ],
-  "description": "Develops vision-based systems for image and video analysis",
-  "experience_keywords": [
-    "trained",
-    "detected",
-    "classified",
-    "optimized",
-    "implemented"
-  ],
-  "weight": 1.2
-},
-"game_developer": {
-  "title": "Game Developer",
-  "aliases": [
-    "unity developer",
-    "unreal developer",
-    "game programmer"
-  ],
-  "core_skills": [
-    "c++",
-    "c#",
-    "unity",
-    "unreal engine",
-    "game physics",
-    "debugging"
-  ],
-  "description": "Designs and develops interactive games and game systems",
-  "experience_keywords": [
-    "developed",
-    "implemented",
-    "optimized",
-    "tested",
-    "integrated"
-  ],
-  "weight": 1.0
-},
-"blockchain_developer": {
-  "title": "Blockchain Developer",
-  "aliases": [
-    "web3 developer",
-    "smart contract developer"
-  ],
-  "core_skills": [
-    "solidity",
-    "ethereum",
-    "smart contracts",
-    "web3",
-    "cryptography"
-  ],
-  "description": "Builds decentralized applications and blockchain-based systems",
-  "experience_keywords": [
-    "developed",
-    "deployed",
-    "audited",
-    "implemented",
-    "tested"
-  ],
-  "weight": 1.15
-},
-"ar_vr_developer": {
-  "title": "AR/VR Developer",
-  "aliases": [
-    "xr developer",
-    "virtual reality developer",
-    "augmented reality developer"
-  ],
-  "core_skills": [
-    "unity",
-    "c#",
-    "arcore",
-    "arkit",
-    "3d modeling",
-    "spatial computing"
-  ],
-  "description": "Creates immersive augmented and virtual reality experiences",
-  "experience_keywords": [
-    "designed",
-    "developed",
-    "integrated",
-    "tested",
-    "optimized"
-  ],
-  "weight": 1.1
-},
-"technical_writer": {
-  "title": "Technical Writer",
-  "aliases": [
-    "documentation specialist",
-    "content engineer"
-  ],
-  "core_skills": [
-    "technical documentation",
-    "writing",
-    "api docs",
-    "markdown",
-    "communication"
-  ],
-  "description": "Creates clear and accurate technical documentation for products and systems",
-  "experience_keywords": [
-    "documented",
-    "authored",
-    "edited",
-    "reviewed",
-    "published"
-  ],
-  "weight": 0.85
-},
-"it_support_engineer": {
-  "title": "IT Support Engineer",
-  "aliases": [
-    "technical support",
-    "helpdesk engineer"
-  ],
-  "core_skills": [
-    "troubleshooting",
-    "hardware",
-    "networking",
-    "windows",
-    "linux",
-    "customer support"
-  ],
-  "description": "Provides technical assistance and support for systems and users",
-  "experience_keywords": [
-    "resolved",
-    "assisted",
-    "diagnosed",
-    "configured",
-    "supported"
-  ],
-  "weight": 0.8
-}
-"data_analyst": {
-  "title": "Data Analyst",
-  "aliases": [
-    "business data analyst",
-    "analytics analyst"
-  ],
-  "core_skills": [
-    "sql",
-    "excel",
-    "data analysis",
-    "data visualization",
-    "python",
-    "statistics"
-  ],
-  "description": "Analyzes datasets to generate insights and support business decisions",
-  "experience_keywords": [
-    "analyzed",
-    "queried",
-    "visualized",
-    "reported",
-    "interpreted"
-  ],
-  "weight": 1.0
-},
-"frontend_engineer": {
-  "title": "Frontend Engineer",
-  "aliases": [
-    "frontend developer",
-    "ui engineer"
-  ],
-  "core_skills": [
-    "javascript",
-    "typescript",
-    "react",
-    "html",
-    "css",
-    "performance optimization"
-  ],
-  "description": "Builds performant and accessible user interfaces for web applications",
-  "experience_keywords": [
-    "implemented",
-    "styled",
-    "optimized",
-    "integrated",
-    "tested"
-  ],
-  "weight": 1.0
-},
-"backend_engineer": {
-  "title": "Backend Engineer",
-  "aliases": [
-    "server-side engineer",
-    "api engineer"
-  ],
-  "core_skills": [
-    "python",
-    "java",
-    "node.js",
-    "databases",
-    "rest api",
-    "microservices"
-  ],
-  "description": "Develops server-side logic and scalable backend systems",
-  "experience_keywords": [
-    "designed",
-    "built",
-    "implemented",
-    "scaled",
-    "maintained"
-  ],
-  "weight": 1.0
-},
-"full_stack_engineer": {
-  "title": "Full Stack Engineer",
-  "aliases": [
-    "full-stack developer",
-    "web engineer"
-  ],
-  "core_skills": [
-    "javascript",
-    "react",
-    "node.js",
-    "python",
-    "databases",
-    "api integration"
-  ],
-  "description": "Works across frontend and backend to deliver end-to-end features",
-  "experience_keywords": [
-    "developed",
-    "integrated",
-    "deployed",
-    "maintained",
-    "optimized"
-  ],
-  "weight": 1.1
-},
-"devops_specialist": {
-  "title": "DevOps Specialist",
-  "aliases": [
-    "devops engineer",
-    "infrastructure specialist"
-  ],
-  "core_skills": [
-    "docker",
-    "kubernetes",
-    "ci/cd",
-    "cloud",
-    "linux",
-    "automation"
-  ],
-  "description": "Automates infrastructure and deployment pipelines to improve reliability",
-  "experience_keywords": [
-    "automated",
-    "deployed",
-    "configured",
-    "monitored",
-    "optimized"
-  ],
-  "weight": 1.0
-},
-"cloud_security_engineer": {
-  "title": "Cloud Security Engineer",
-  "aliases": [
-    "cloud security analyst",
-    "security cloud engineer"
-  ],
-  "core_skills": [
-    "cloud security",
-    "iam",
-    "network security",
-    "risk assessment",
-    "compliance"
-  ],
-  "description": "Secures cloud environments and enforces security best practices",
-  "experience_keywords": [
-    "secured",
-    "assessed",
-    "monitored",
-    "implemented",
-    "reviewed"
-  ],
-  "weight": 1.15
-},
-"data_quality_engineer": {
-  "title": "Data Quality Engineer",
-  "aliases": [
-    "data validation engineer",
-    "dq engineer"
-  ],
-  "core_skills": [
-    "data validation",
-    "sql",
-    "python",
-    "etl",
-    "testing"
-  ],
-  "description": "Ensures accuracy, consistency, and reliability of data pipelines",
-  "experience_keywords": [
-    "validated",
-    "tested",
-    "monitored",
-    "identified",
-    "resolved"
-  ],
-  "weight": 0.95
-},
-"product_analyst": {
-  "title": "Product Analyst",
-  "aliases": [
-    "product data analyst",
-    "growth analyst"
-  ],
-  "core_skills": [
-    "product analytics",
-    "sql",
-    "experimentation",
-    "metrics",
-    "data visualization"
-  ],
-  "description": "Analyzes product usage and experiments to guide product decisions",
-  "experience_keywords": [
-    "analyzed",
-    "experimented",
-    "measured",
-    "reported",
-    "optimized"
-  ],
-  "weight": 1.0
-},
-"release_manager": {
-  "title": "Release Manager",
-  "aliases": [
-    "software release manager",
-    "delivery manager"
-  ],
-  "core_skills": [
-    "release planning",
-    "ci/cd",
-    "coordination",
-    "risk management",
-    "version control"
-  ],
-  "description": "Plans and coordinates software releases across teams",
-  "experience_keywords": [
-    "planned",
-    "coordinated",
-    "released",
-    "tracked",
-    "mitigated"
-  ],
-  "weight": 0.95
-},
-"engineering_manager": {
-  "title": "Engineering Manager",
-  "aliases": [
-    "em",
-    "tech manager"
-  ],
-  "core_skills": [
-    "team leadership",
-    "system design",
-    "project management",
-    "mentoring"
-  ],
-  "description": "Leads engineering teams and drives delivery of technical initiatives",
-  "experience_keywords": [
-    "led",
-    "mentored",
-    "planned",
-    "reviewed",
-    "delivered"
-  ],
-  "weight": 1.1
 }

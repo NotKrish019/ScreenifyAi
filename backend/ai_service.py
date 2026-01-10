@@ -196,6 +196,96 @@ Be specific to THIS candidate. Do not use generic phrases."""
         
         return f"Candidate shows {match_score}% match. Further review recommended."
 
+    def improve_job_description(self, jd_text: str) -> Dict:
+        """
+        Analyze and suggest improvements for a job description.
+        """
+        jd_text = jd_text[:2000] if len(jd_text) > 2000 else jd_text
+        
+        prompt = f"""You are an expert HR consultant. Analyze this Job Description.
+
+JOB DESCRIPTION:
+{jd_text}
+
+Provide a constructive critique and an improved version.
+Respond ONLY in this JSON format:
+{{
+    "strengths": ["string", "string"],
+    "weaknesses": ["string", "string"],
+    "suggestions": ["string", "string"],
+    "improved_version": "Full improved text..."
+}}"""
+
+        response = self._call_ollama(prompt, max_tokens=800)
+        
+        try:
+            # Find JSON in response (handle potential preamble text)
+            start = response.find('{')
+            end = response.rfind('}') + 1
+            if start != -1 and end > start:
+                return json.loads(response[start:end])
+        except Exception as e:
+            logger.error(f"JD Improvement failed: {e}")
+            
+        return {
+            "strengths": [],
+            "weaknesses": ["Analysis failed"],
+            "suggestions": ["Please try again"],
+            "improved_version": jd_text
+        }
+
+    def compare_candidates(self, candidates: List[Dict], job_description: str) -> Dict:
+        """
+        Compare multiple candidates side-by-side.
+        """
+        job_description = job_description[:1000] if len(job_description) > 1000 else job_description
+        
+        # Format candidate data for prompt
+        candidates_text = ""
+        for c in candidates:
+            # Summarize resume text to save tokens
+            text_snippet = c.get('original_text', '')[:1000]
+            candidates_text += f"\n--- CANDIDATE: {c.get('name')} ---\n{text_snippet}\n"
+
+        prompt = f"""Compare these candidates for the following role.
+
+JOB:
+{job_description}
+
+CANDIDATES:
+{candidates_text}
+
+Compare them based on skills, experience, and fit.
+Respond ONLY in this JSON format:
+{{
+    "summary": "Brief comparative summary of the group...",
+    "best_candidate": "Name of best fit",
+    "comparison_table": [
+        {{
+            "name": "Candidate Name",
+            "pros": ["pro1", "pro2"],
+            "cons": ["con1", "con2"],
+            "verdict": "Short verdict"
+        }}
+    ]
+}}"""
+
+        response = self._call_ollama(prompt, max_tokens=1000)
+        
+        try:
+            start = response.find('{')
+            end = response.rfind('}') + 1
+            if start != -1 and end > start:
+                return json.loads(response[start:end])
+        except Exception as e:
+            logger.error(f"Comparison failed: {e}")
+            
+        return {
+            "summary": "Comparison could not be generated.",
+            "best_candidate": "Unknown",
+            "comparison_table": []
+        }
+
 
 # Singleton instance
 ai_service = AIService()

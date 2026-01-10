@@ -268,7 +268,18 @@ class NLPEngine:
         best_match = None
         best_score = 0
         
-        for role_key, role_data in self.job_roles.get('job_roles', {}).items():
+        # Combine standard and additional job roles
+        standard_roles = self.job_roles.get('job_roles', {})
+        additional_roles = self.job_roles.get('additional_job_roles', {})
+        
+        # Iterate through all available roles
+        all_roles = {**standard_roles, **additional_roles}
+        
+        for role_key, role_data in all_roles.items():
+            # Skip invalid entries
+            if not isinstance(role_data, dict) or 'title' not in role_data:
+                continue
+                
             score = 0
             
             # Check title
