@@ -1,0 +1,13 @@
+{
+    "minimum_skill_match_percentage": 0.3,
+    "minimum_core_skill_percentage": 0.5,
+    "semantic_similarity_threshold": 0.4,
+    "experience_tolerance_years": 2,
+    "score_categories": {
+        "excellent": 85,
+        "strong": 70,
+        "good": 55,
+        "partial": 40,
+        "weak": 25
+    }
+}
