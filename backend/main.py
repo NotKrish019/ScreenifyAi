@@ -34,7 +34,7 @@ logger = logging.getLogger(__name__)
 
 # Logic Imports
 from resume_parser import resume_parser
-from simple_matcher import simple_matcher
+from ai_service import ai_service
 
 # State
 class AppState:
@@ -103,7 +103,7 @@ def upload_resumes(files: List[UploadFile] = File(...)):
                 "path": str(file_path),
                 "original_text": text
             })
-            uploaded.append(file.filename)
+            uploaded.append({"id": file_id, "name": file.filename})
             logger.info(f"Uploaded and extracted: {file.filename}")
         else:
             logger.error(f"Failed to extract text: {file.filename}")
@@ -130,9 +130,42 @@ def analyze():
     try:
         logger.info(f"Analyzing {len(app_state.resumes)} resumes against JD ({len(app_state.jd_text)} chars)...")
         
-        # Run matching logic
-        results = simple_matcher.rank_resumes(app_state.jd_text, app_state.resumes)
+        # Run matching logic using AI Service
+        # This will use local NLP by default, but is structured to support LLM if configured
         
+        # We need to process each resume
+        results = []
+        for resume in app_state.resumes:
+             # Use ai_service for analysis
+             analysis = ai_service.analyze_resume(
+                 resume.get('original_text', ''), 
+                 app_state.jd_text, 
+                 resume.get('name', 'Unknown')
+             )
+             
+             # Enrich with ID
+             analysis['id'] = resume['id']
+             analysis['resume_name'] = resume['name']
+             
+             # Format explanation for frontend compatibility
+             analysis['explanation'] = {
+                 "summary": analysis.get('summary', ''),
+                 "strengths": [f"Proficient in {s}" for s in analysis.get('matched_skills', [])[:3]],
+                 "tips": [analysis.get('recommendation', '')]
+             }
+             
+             # Format fit to match frontend expectation (capitalized)
+             analysis['fit'] = analysis.get('fit_level', 'Low')
+             
+             results.append(analysis)
+        
+        # Sort results
+        results.sort(key=lambda x: x['match_score'], reverse=True)
+        
+        # Add rank
+        for i, r in enumerate(results):
+            r['rank'] = i + 1
+
         if not results:
              logger.warning("Matcher returned empty results")
              
@@ -147,6 +180,11 @@ def analyze():
         # Return a 500 that the frontend can parse, rather than a hard crash
         raise HTTPException(status_code=500, detail=f"Server Analysis Failed: {str(e)}")
 
+# Include the new extension endpoints
+# (Integrated directly below to avoid circular imports)
+
+
+
 @app.get("/results")
 def get_results(use_ai: bool = False):
     return {"results": app_state.results}
@@ -159,3 +197,85 @@ def reset():
 @app.get("/health")
 def health():
     return {"status": "ok"}
+@app.post("/improve-jd")
+def improve_jd(payload: Optional[JobDescriptionText] = None):
+    # Allow passing text directly, or fallback to stored text
+    text_to_process = None
+    
+    if payload and payload.text:
+        text_to_process = payload.text
+        # Optional: update state too?
+        app_state.jd_text = payload.text
+    elif app_state.jd_text:
+        text_to_process = app_state.jd_text
+        
+    if not text_to_process:
+         raise HTTPException(status_code=400, detail="No JD provided. Please enter text or upload a file.")
+    
+    try:
+        # Use our new AI service which handles LLM or Local fallback automatically
+        improved_data = ai_service.improve_job_description(text_to_process)
+        return {"success": True, "analysis": improved_data}
+    except Exception as e:
+        logger.error(f"JD Improve Error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/compare")
+def compare_candidates(payload: dict):
+    # Payload: {"candidate_ids": ["id1", "id2"]}
+    ids = payload.get("candidate_ids", [])
+    if len(ids) != 2:
+        raise HTTPException(status_code=400, detail="Select exactly 2 candidates")
+        
+    # Find candidates
+    c1 = next((r for r in app_state.results if r['id'] == ids[0]), None)
+    c2 = next((r for r in app_state.results if r['id'] == ids[1]), None)
+    
+    if not c1 or not c2:
+        # Fallback to resumes list if results aren't populated yet? 
+        # Actually comparison usually happens AFTER analysis.
+        # But let's check app_state.resumes just in case we need raw text.
+        c1_raw = next((r for r in app_state.resumes if r['id'] == ids[0]), {})
+        c2_raw = next((r for r in app_state.resumes if r['id'] == ids[1]), {})
+        
+        # Merge basic info if found in results
+        if c1: c1_raw.update(c1)
+        if c2: c2_raw.update(c2)
+        
+        c1 = c1_raw
+        c2 = c2_raw
+
+    if not c1 or not c2:
+         raise HTTPException(status_code=404, detail="Candidates not found")
+
+    try:
+        result = ai_service.compare_candidates([c1, c2], app_state.jd_text)
+        
+        # Inject existing scores and names for the frontend visualization
+        result['comparison']['c1_score'] = c1.get('match_score', 0)
+        result['comparison']['c2_score'] = c2.get('match_score', 0)
+        # Prefer names from result if available, else from comparison
+        result['comparison']['c1_name'] = c1.get('resume_name', result['comparison'].get('c1_name', 'Candidate 1'))
+        result['comparison']['c2_name'] = c2.get('resume_name', result['comparison'].get('c2_name', 'Candidate 2'))
+        
+        return {"success": True, **result}
+    except Exception as e:
+        logger.error(f"Comparison Error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/generate-report")
+def generate_report():
+    """Generate a full AI-written report for all analyzed candidates."""
+    if not app_state.results:
+        raise HTTPException(status_code=400, detail="No analysis results available. Please run analysis first.")
+    
+    if not app_state.jd_text:
+        raise HTTPException(status_code=400, detail="No job description available.")
+    
+    try:
+        # Use the AI service to generate a comprehensive report
+        report_data = ai_service.generate_full_report(app_state.results, app_state.jd_text)
+        return report_data
+    except Exception as e:
+        logger.error(f"Report Generation Error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
