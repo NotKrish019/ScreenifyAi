@@ -14,6 +14,10 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, File, UploadFile, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from dotenv import load_dotenv
+
+# Load env vars
+load_dotenv()
 
 # Local imports
 # We define simple models here to avoid dependency on the old models.py if it causes issues
