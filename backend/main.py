@@ -36,6 +36,10 @@ for d in [JD_UPLOAD_DIR, RESUME_UPLOAD_DIR]:
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Fix Path for Render/Vercel (adds 'backend' to sys.path)
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 # Logic Imports
 from resume_parser import resume_parser
 from ai_service import ai_service
