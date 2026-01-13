@@ -77,12 +77,27 @@ app = FastAPI(title="Resume Screener Lite", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True, # Changed back to True but with * is sometimes risky in production but fine for localhost uvicorn usually. 
-                            # actually the user's error was "Access-Control-Allow-Origin" header missing.
-                            # Starlette/FastAPI handles this well with ["*"] usually.
+    allow_credentials=True, 
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# SERVE FRONTEND (Added for Render/Deployment)
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
+# Calculate paths relative to this file
+BASE_DIR = Path(__file__).resolve().parent.parent # Root of repo
+FRONTEND_DIR = BASE_DIR / "frontend"
+
+# Mount static assets (css, js, etc.)
+app.mount("/static", StaticFiles(directory=str(FRONTEND_DIR)), name="static")
+
+@app.get("/")
+async def read_index():
+    return FileResponse(FRONTEND_DIR / "index.html")
+
+# --- Endpoints ---
 
 # --- Endpoints ---
 
