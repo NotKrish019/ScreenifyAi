@@ -42,3 +42,9 @@ backend/uploads/**/*
 *.db
 *.sqlite
 *.sqlite3
+
+# Secrets
+backend/serviceAccountKey.json
+**/serviceAccountKey.json
+backend/.env
+

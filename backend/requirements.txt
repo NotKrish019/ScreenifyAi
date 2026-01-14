@@ -22,3 +22,6 @@ starlette
 
 # Gemini AI
 google-generativeai
+
+# Database
+firebase-admin

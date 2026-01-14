@@ -43,6 +43,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 # Logic Imports
 from resume_parser import resume_parser
 from ai_service import ai_service
+import firestore_db
 
 # State
 class AppState:
@@ -220,6 +221,16 @@ def analyze():
         app_state.analysis_complete = True
         logger.info("Analysis completed successfully")
         
+
+        # --- Save to History ---
+        try:
+            history_id = firestore_db.save_analysis_result(app_state.jd_text, results)
+            if history_id:
+                logger.info(f"Analysis saved to history ({history_id})")
+        except Exception as db_err:
+            logger.error(f"Failed to save history: {db_err}")
+            # Don't fail the request if DB fails
+
         return {"success": True, "count": len(results)}
         
     except Exception as e:
@@ -231,6 +242,20 @@ def analyze():
 # (Integrated directly below to avoid circular imports)
 
 
+
+
+@app.get("/history")
+def get_history_list():
+    """Get list of past analyses"""
+    return firestore_db.get_history_list()
+
+@app.get("/history/{analysis_id}")
+def get_history_detail(analysis_id: str):
+    """Get full detail of a past analysis"""
+    data = firestore_db.get_analysis_detail(analysis_id)
+    if not data:
+        raise HTTPException(status_code=404, detail="History item not found")
+    return data
 
 @app.get("/results")
 def get_results(use_ai: bool = False):
@@ -294,6 +319,23 @@ def compare_candidates(payload: dict):
 
     if not c1 or not c2:
          raise HTTPException(status_code=404, detail="Candidates not found")
+
+    # Ensure we have the text for AI analysis
+    # We first check if 'original_text' is in the result object (it might not be if filtered)
+    # If not, we look it up in app_state.resumes
+    
+    def get_resume_text(cand_id, cand_obj):
+        if 'original_text' in cand_obj and cand_obj['original_text']: 
+            return cand_obj['original_text']
+        # Look up in raw resumes
+        raw = next((r for r in app_state.resumes if r['id'] == cand_id), None)
+        if raw and 'original_text' in raw:
+            return raw['original_text']
+        # Fallback to summary if text is totally gone
+        return cand_obj.get('summary', '')
+
+    c1['original_text'] = get_resume_text(ids[0], c1)
+    c2['original_text'] = get_resume_text(ids[1], c2)
 
     try:
         result = ai_service.compare_candidates([c1, c2], app_state.jd_text)
